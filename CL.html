@@ -49,6 +49,30 @@
                 width: "100%",
                 height: "100%",
                 playbackRateControls: true,
+                hlsjsConfig: {
+                    // Use HLS.js settings to improve performance and fix issues
+                    capLevelToPlayerSize: true,
+                    maxMaxBufferLength: 30, // Limit the buffer length to avoid excessive buffering
+                    maxBufferLength: 60, // Max buffer length in seconds
+                    maxBufferSize: 60 * 1000 * 1000, // Max buffer size in bytes
+                    startLevel: -1, // Start with the best available quality
+                    liveSyncDuration: 30, // Sync live streams with a buffer of 30 seconds
+                    liveMaxLatencyDuration: 60, // Maximum latency for live streams
+                },
+                events: {
+                    onError: function(event) {
+                        console.error('JWPlayer error:', event.message);
+                    },
+                    onReady: function() {
+                        console.log('JWPlayer is ready and stream is loading...');
+                    },
+                    onBuffer: function(event) {
+                        console.log('Buffering:', event);
+                    },
+                    onPlay: function() {
+                        console.log('Playback started');
+                    }
+                }
             });
         }
 
