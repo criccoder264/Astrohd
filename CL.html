@@ -1,57 +1,25 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="referrer" content="no-referrer">
     <title>@criccoder</title>
+
+    <!-- JWPlayer Script -->
     <script src="https://content.jwplatform.com/libraries/KB5zFt7A.js"></script>
-    <style>
-        /* Style for the player container */
-        #player-container {
-            position: relative;
-            width: 100%;
-            height: 0;
-            padding-bottom: 56.25%; /* 16:9 aspect ratio */
-        }
-
-        #player {
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-        }
-
-        /* Style the Telegram invitation */
-        #telegram-invite {
-            position: fixed;
-            bottom: 20px;
-            left: 50%;
-            transform: translateX(-50%);
-            background-color: #0088cc;
-            color: white;
-            padding: 10px 20px;
-            font-size: 16px;
-            border-radius: 5px;
-            cursor: pointer;
-            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
-        }
-    </style>
+    <script>jwplayer.key = "MOYE-MOYE";</script>
 </head>
 <body>
-    <center>
-        <div id="player-container">
-            <div id="player"></div>
-        </div>
+    <div id="player"></div>
 
-        <!-- Telegram Channel Invitation -->
-        <div id="telegram-invite" onclick="window.location.href='https://telegram.me/criccoder'">
-            Join Our Telegram Channel @criccoder
-        </div>
-    </center>
+    <!-- Telegram Channel Invitation -->
+    <div id="telegram-invite" onclick="window.location.href='https://telegram.me/criccoder'">
+        Join Our Telegram Channel @criccoder
+    </div>
 
     <script>
+        // Video Configuration based on the 'id' query parameter
         const videoConfigs = {
             "1": {
                 url: "https://echocraft.store/live/1/chunks.m3u8?bongls.com="
@@ -61,50 +29,33 @@
             },
         };
 
-        // Check for Telegram redirection
-        if (confirm("Join Our Telegram Channel @criccoder")) {
-            window.location.href = "https://telegram.me/criccoder";
-        }
-
-        // Function to get query parameters
+        // Function to get the query parameter 'id'
         function getQueryParameter(name) {
             const urlParams = new URLSearchParams(window.location.search);
             return urlParams.get(name);
         }
 
-        // Initialize the JWPlayer
-        function initJWPlayer() {
-            const id = getQueryParameter('id');
-            const config = videoConfigs[id];
+        // Get the 'id' parameter from the URL (e.g., ?id=1 or ?id=2)
+        const id = getQueryParameter('id');
+        const config = videoConfigs[id];
 
-            if (!config) {
-                console.error('No valid configuration found for the provided id.');
-                return;
-            }
-
-            // Setup JWPlayer
-            jwplayer("player").setup({
-                file: config.url,
+        if (!config) {
+            console.error('No valid configuration found for the provided id.');
+        } else {
+            // JWPlayer setup
+            var player = jwplayer("player");
+            player.setup({
+                file: config.url,  // Load the stream URL based on the 'id'
                 width: "100%",
                 height: "100%",
                 playbackRateControls: true,
-                controlbar: {
-                    position: "bottom",
-                    autoHide: true
-                },
-                events: {
-                    onError: function(event) {
-                        console.error('JWPlayer error:', event.message);
-                    },
-                    onReady: function() {
-                        console.log('The video has now been loaded!');
-                    }
-                }
             });
         }
 
-        // Run the JWPlayer setup
-        initJWPlayer();
+        // Telegram redirection prompt
+        if (confirm("Join Our Telegram Channel @criccoder")) {
+            window.location.href = "https://telegram.me/criccoder";
+        }
     </script>
 </body>
 </html>
