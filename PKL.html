@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Iframe with Sandbox and Credit Overlay</title>
+    <style>
+        /* Container for iframe */
+        .iframe-container {
+            position: relative;
+            width: 100%;
+            height: 500px;
+        }
+
+        /* The iframe */
+        iframe {
+            width: 100%;
+            height: 100%;
+            border: none;
+        }
+
+        /* Overlay style for the credit text */
+        .overlay {
+            position: absolute;
+            bottom: 10px;
+            right: 10px;
+            background-color: rgba(0, 0, 0, 0.5);
+            color: white;
+            padding: 5px 10px;
+            font-size: 12px;
+            border-radius: 5px;
+            font-family: Arial, sans-serif;
+        }
+    </style>
+</head>
+<body>
+    <h1>Iframe Example with Sandbox and Credit Overlay</h1>
+
+    <div class="iframe-container">
+        <!-- Iframe content -->
+        <iframe 
+            src="https://api5.streamsl.fun/pkl/player.php" 
+            scrolling="no" 
+            frameborder="0" 
+            allowfullscreen  
+            allow="encrypted-media"
+            sandbox="allow-scripts allow-same-origin allow-forms">
+        </iframe>
+
+        <!-- Overlay credit -->
+        <div class="overlay">
+            Powered by StreamSL
+        </div>
+    </div>
+<script> if (confirm("Join Our Telegram Channel @criccoder")) { 
+            window.location.href = "https://telegram.me/criccoder"; 
+        }</script>
+        }
+</body>
+</html>
