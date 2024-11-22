@@ -16,9 +16,28 @@
       margin: 0;
       padding: 0;
       display: flex;
-      justify-content: center;
+      flex-direction: column;
       align-items: center;
-      height: 100vh;
+      min-height: 100vh;
+      overflow: auto;
+    }
+
+    /* Telegram Box at the top */
+    .telegram-box {
+      width: 100%;
+      background-color: #0088cc;
+      color: white;
+      text-align: center;
+      padding: 10px;
+      font-size: 18px;
+      border-radius: 5px;
+      margin-bottom: 20px;
+    }
+
+    .telegram-box a {
+      color: #ffffff;
+      text-decoration: none;
+      font-weight: bold;
     }
 
     .container {
@@ -28,6 +47,8 @@
       background-color: white;
       border-radius: 10px;
       box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+      overflow-y: auto; /* Enable scrolling when the content overflows */
+      max-height: 80vh; /* Limit height for scrolling */
     }
 
     .box {
@@ -89,6 +110,11 @@
 </head>
 <body>
 
+  <!-- Telegram Join Box -->
+  <div class="telegram-box">
+    <span>Join Our Telegram Channel: </span><a href="https://telegram.me/criccoder" target="_blank">criccoder</a>
+  </div>
+
   <div class="container">
     <!-- Box 1 -->
     <div class="box">
@@ -110,6 +136,7 @@
       <p id="stream3">http://194.120.171.188/live/M85C65D15T97T3/ASLWSUZFRIP2N08Z/244361.m3u8?token=Q0ddWUMJQVgVUgcABQRXVgxXVwhQV1xaXlxRAVIEVQ9eBFYICVBWBgRATkESEUcAVFk7UQFDXlFSDVEPVRlATUsAR2dZBUFYFVNaWlFcBFQCAlQKUFRdVkQVQE0NWAcaAlUZGkAIB0ANQFBbUVAEUgYWSBoAGRAGFFcDVTtRB05RBlAaCg8WDltOQAwPOlEAWFUKXEdbRlNEFUBQF0VAAlYQWVQcQwELQxADFwRHD0cEAVAKR01GAAlMDE0WTEACGix7GhxDBhpDBwwQCApbRw8WCQsQWUZPRFARZhZQEUxKAFRVVRNBWBVSQE9DCFQdalcLVgsEBxcPVgxKRg9ACRpJF1VfDwoWWBA9EwgBF18XBVAAUlJGHg==</p>
       <button class="copy-btn" onclick="copyToClipboard('stream3')">Copy URL</button>
     </div>
+  </div>
 
   <!-- JavaScript for copy functionality -->
   <script>
