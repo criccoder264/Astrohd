@@ -3,28 +3,53 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>HLS Stream Player</title>
-  <link href="https://vjs.zencdn.net/7.20.3/video-js.css" rel="stylesheet" />
-  <script src="https://cdn.jsdelivr.net/npm/hls.js@latest"></script>
-  <script src="https://vjs.zencdn.net/7.20.3/video.min.js"></script>
+  <title>HTML5 HLS Player</title>
+  <script src="https://cdn.jsdelivr.net/npm/hls.js@latest"></script> <!-- Include HLS.js -->
 </head>
 <body>
   <h1>Live Stream Player</h1>
-  <video id="video" class="video-js vjs-default-skin" width="100%" height="500" controls></video>
+  <video id="video" width="100%" height="500" controls></video>
 
-  <script type="text/javascript">
-    // Video.js initialization
-    var player = videojs('video');
+  <script>
+    // Get the video element
+    var video = document.getElementById('video');
     
-    // HLS.js loading and attaching
+    // Check if the browser supports HLS.js
     if (Hls.isSupported()) {
       var hls = new Hls();
-      var streamUrl = 'https://deencooper.space/H2/crichd.php?v=astrocric'; // Your stream URL
       
-      hls.loadSource(streamUrl);  // Load the stream into HLS.js
-      hls.attachMedia(player.tech_.el()); // Attach it to the video player
+      // URL of the HLS stream
+      var streamUrl = 'http://128.0.104.125:8080/play/hls/eyJpdiI6IkR4MVVFYVRJZ3VySmE2N2x0VjY1MlE9PSIsInZhbHVlIjoiazU0c3N6ZFBqZ2dNUlZKdW81VGtLNUQ4S01tdzJSMEo4TWVhNi9vYWwzb2JMcExmRFVYSThzR2Z5OEhUeE1wdSIsIm1hYyI6IjUzNjczZjRhNjVmOTgwYjFmMzIyNDljM2Q4YWE1MzJlYmFkMWVjZTc2ZjM4YWQ3YWJhNzZlOThmYjVkMzM1MWQiLCJ0YWciOiIifQ==/bd49c153-b233-42c0-92bb-3d61d2df4344.m3u8?lvtoken=eyJpdiI6Ii91YjlYQURhT3JON0pXVnF6TVc5L3c9PSIsInZhbHVlIjoiczlqd3dlWDZhbHFaUVp0bHBtdXNMM2kxbkFIN3FraWpWL0g0YkZiZmNXM0hSUmx3Q1lLalhhdm90R1I0V1dORnlRN3dZaDBJbUhCMVNXdlpKaE41MW5xQ3JzbEhZdS9xaFI0Q3NDUjg4d3c0V25YRlZEUHFKc0RCSWR4VGVhYUpqcmxHc3dxaWNBYmxXWlltMWd6RTRjeHBxM21HU0RXajJ4S3RvaDJTcmJtUkRrdmtsVzZORWlwNGJ2MjV2ZGVQaFYrQ1ZzNTNWcjR5eDFjc2twZ1ZLdz09IiwibWFjIjoiNjdhYWZiYjFjYjU0NWEzZjQzMDQ4ZTcwNGNhMDBkYzM0NjlmZmQ4N2NhNzg4ZmEyNjgzZDQzMTAzZjcyOTMyOSIsInRhZyI6IiJ9&r=0f6faa&rt=2f88ff412afc909b38ee3c726c18de04';
+      
+      // Load the stream URL into HLS.js
+      hls.loadSource(streamUrl);
+      
+      // Attach the HLS.js instance to the video element
+      hls.attachMedia(video);
+      
+      // Event listener to handle errors
+      hls.on(Hls.Events.ERROR, function(event, data) {
+        if (data.fatal) {
+          switch (data.fatal) {
+            case Hls.ErrorTypes.NETWORK_ERROR:
+              console.error('Network error');
+              break;
+            case Hls.ErrorTypes.MEDIA_ERROR:
+              console.error('Media error');
+              break;
+            case Hls.ErrorTypes.OTHER_ERROR:
+              console.error('Other error');
+              break;
+            default:
+              break;
+          }
+        }
+      });
     } else {
-      console.error('HLS.js is not supported in this browser.');
+      console.error("HLS.js is not supported in this browser.");
+      // Optional: Show a fallback for browsers that don't support HLS.js
+      video.src = streamUrl;
+      video.play();
     }
   </script>
 </body>
