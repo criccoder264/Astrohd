@@ -3,46 +3,129 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>HTML5 HLS Stream Player</title>
-  
-  <!-- Video.js CDN -->
-  <link href="https://vjs.zencdn.net/7.20.3/video-js.css" rel="stylesheet">
-  
-  <!-- Video.js and HLS plugin -->
-  <script src="https://cdn.jsdelivr.net/npm/video.js@7.20.3/dist/video.min.js"></script>
-  <script src="https://cdn.jsdelivr.net/npm/videojs-contrib-hls@5.13.0/dist/videojs-contrib-hls.min.js"></script>
+  <title>Copy M3U8 Links</title>
 
+  <!-- Google Fonts for clean styling -->
+  <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500&display=swap" rel="stylesheet">
+
+  <!-- Simple CSS for layout and design -->
   <style>
-    #player {
-      width: 100%;
-      height: 500px;
+    body {
+      font-family: 'Roboto', sans-serif;
+      background-color: #f4f4f4;
+      margin: 0;
+      padding: 0;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+    }
+
+    .container {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      grid-gap: 20px;
+      max-width: 900px;
+      padding: 20px;
+      background-color: white;
+      border-radius: 10px;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    }
+
+    .box {
+      background-color: #f9f9f9;
+      padding: 20px;
+      border-radius: 10px;
+      text-align: center;
+      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    }
+
+    .box h3 {
+      margin: 10px 0;
+      color: #333;
+    }
+
+    .box p {
+      color: #555;
+      word-wrap: break-word;
+      margin: 15px 0;
+    }
+
+    .copy-btn {
+      background-color: #4CAF50;
+      color: white;
+      border: none;
+      padding: 10px 20px;
+      cursor: pointer;
+      border-radius: 5px;
+      font-size: 16px;
+      transition: background-color 0.3s;
+    }
+
+    .copy-btn:hover {
+      background-color: #45a049;
+    }
+
+    .copy-btn:focus {
+      outline: none;
     }
   </style>
 </head>
 <body>
 
-  <h1>Live Stream Player</h1>
-  
-  <!-- Video.js Player Container -->
-  <video id="player" class="video-js vjs-default-skin" controls>
-    <source src="http://128.0.104.125:8080/play/hls/eyJpdiI6IkR4MVVFYVRJZ3VySmE2N2x0VjY1MlE9PSIsInZhbHVlIjoiazU0c3N6ZFBqZ2dNUlZKdW81VGtLNUQ4S01tdzJSMEo4TWVhNi9vYWwzb2JMcExmRFVYSThzR2Z5OEhUeE1wdSIsIm1hYyI6IjUzNjczZjRhNjVmOTgwYjFmMzIyNDljM2Q4YWE1MzJlYmFkMWVjZTc2ZjM4YWQ3YWJhNzZlOThmYjVkMzM1MWQiLCJ0YWciOiIifQ==/bd49c153-b233-42c0-92bb-3d61d2df4344.m3u8?lvtoken=eyJpdiI6Ii91YjlYQURhT3JON0pXVnF6TVc5L3c9PSIsInZhbHVlIjoiczlqd3dlWDZhbHFaUVp0bHBtdXNMM2kxbkFIN3FraWpWL0g0YkZiZmNXM0hSUmx3Q1lLalhhdm90R1I0V1dORnlRN3dZaDBJbUhCMVNXdlpKaE41MW5xQ3JzbEhZdS9xaFI0Q3NDUjg4d3c0V25YRlZEUHFKc0RCSWR4VGVhYUpqcmxHc3dxaWNBYmxXWlltMWd6RTRjeHBxM21HU0RXajJ4S3RvaDJTcmJtUkRrdmtsVzZORWlwNGJ2MjV2ZGVQaFYrQ1ZzNTNWcjR5eDFjc2twZ1ZLdz09IiwibWFjIjoiNjdhYWZiYjFjYjU0NWEzZjQzMDQ4ZTcwNGNhMDBkYzM0NjlmZmQ4N2NhNzg4ZmEyNjgzZDQzMTAzZjcyOTMyOSIsInRhZyI6IiJ9&r=0f6faa&rt=2f88ff412afc909b38ee3c726c18de04" type="application/x-mpegURL">
-  </video>
+  <div class="container">
+    <!-- Box 1 -->
+    <div class="box">
+      <h3>Stream 1</h3>
+      <p id="stream1">http://128.0.104.125:8080/play/hls/stream1.m3u8</p>
+      <button class="copy-btn" onclick="copyToClipboard('stream1')">Copy URL</button>
+    </div>
 
+    <!-- Box 2 -->
+    <div class="box">
+      <h3>Stream 2</h3>
+      <p id="stream2">http://128.0.104.125:8080/play/hls/stream2.m3u8</p>
+      <button class="copy-btn" onclick="copyToClipboard('stream2')">Copy URL</button>
+    </div>
+
+    <!-- Box 3 -->
+    <div class="box">
+      <h3>Stream 3</h3>
+      <p id="stream3">http://128.0.104.125:8080/play/hls/stream3.m3u8</p>
+      <button class="copy-btn" onclick="copyToClipboard('stream3')">Copy URL</button>
+    </div>
+
+    <!-- Box 4 -->
+    <div class="box">
+      <h3>Stream 4</h3>
+      <p id="stream4">http://128.0.104.125:8080/play/hls/stream4.m3u8</p>
+      <button class="copy-btn" onclick="copyToClipboard('stream4')">Copy URL</button>
+    </div>
+  </div>
+
+  <!-- JavaScript for copy functionality -->
   <script>
-    var player = videojs('player', {
-      techOrder: ['html5'], // Ensure we use HTML5 video
-      html5: {
-        hls: {
-          withCredentials: false, // Don't include credentials if needed
-          enableLowInitialPlaylist: true
-        }
-      }
-    });
+    function copyToClipboard(id) {
+      // Get the text field
+      var copyText = document.getElementById(id);
 
-    // Handle any errors
-    player.on('error', function() {
-      console.error('There was an error loading the stream!');
-    });
+      // Create a range object and select the text
+      var range = document.createRange();
+      range.selectNode(copyText);
+      window.getSelection().removeAllRanges(); // Clear previous selections
+      window.getSelection().addRange(range); // Select the text
+
+      // Execute the "copy" command
+      try {
+        document.execCommand('copy');
+        alert("M3U8 URL copied: " + copyText.innerText);
+      } catch (err) {
+        alert("Failed to copy text");
+      }
+
+      // Deselect the text
+      window.getSelection().removeAllRanges();
+    }
   </script>
 
 </body>
