@@ -1,71 +1,116 @@
-<!doctypehtml><html lang=en><meta charset=UTF-8><meta content="width=device-width,initial-scale=1"name=viewport><title>Shaka Player DRM Example</title><script crossorigin=anonymous src=https://cdnjs.cloudflare.com/ajax/libs/shaka-player/4.1.1/shaka-player.compiled.js></script><link crossorigin=anonymous href=https://cdnjs.cloudflare.com/ajax/libs/shaka-player/4.1.1/controls.min.css rel=stylesheet><style>video{width:100%;height:100%;background-color:#000}</style><div id=video-container><video autoplay controls id=video muted></video></div><script>(async function() {
-            // Video configuration with DRM details (example)
-            const videoConfigs = {
-                "TNT1": {
-                    url: "https://ottb.live.cf.ww.aiv-cdn.net/lhr-nitro/live/clients/dash/enc/wf8usag51e/out/v1/bd3b0c314fff4bb1ab4693358f3cd2d3/cenc.mpd",
-                    k1: "ae26845bd33038a9c0774a0981007294",
-                    k2: "63ac662dde310cfb4cc6f9b43b34196d"
-                },
-                "WILLOWHD1": {
-                    url: "https://example.com/manifest.mpd",
-                    k1: "your-clear-key-here",
-                    k2: "your-second-clear-key-here"
-                },
-                // Add other streams as needed
-            };
+<!DOCTYPE html>
+<html lang="en">
 
-            // Function to get query parameter
-            function getQueryParameter(name) {
-                const urlParams = new URLSearchParams(window.location.search);
-                return urlParams.get(name);
+<head>
+    <title>Dynamic Video Stream - @criccoder</title>
+    <link rel="icon" href="https://upload.wikimedia.org/wikipedia/commons/thumb/8/82/Telegram_logo.svg/2048px-Telegram_logo.svg.png" type="image/png" sizes="250x250">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/shaka-player/4.1.1/shaka-player.ui.min.js" crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/shaka-player/4.1.1/controls.min.css" crossorigin="anonymous" />
+    <style>
+        body {
+            margin: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            background-color: black;
+            color: white;
+        }
+
+        .video-container {
+            position: relative;
+            width: 100%;
+            height: 100%;
+        }
+
+        video {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="video-container">
+        <video autoplay muted id="video" poster="https://www.disneystar.com/media/2231/7e25132017-009.jpg?width=1920&height=1080&mode=max&slimmage=true" aria-label="Live video stream"></video>
+    </div>
+
+    <script>
+        // Define stream configurations including URLs and DRM keys
+        const videoConfigs = {
+            "USANETWORK": {
+                url: "https://fsly.stream.peacocktv.com/Content/CMAF_OL1-CTR-4s/Live/channel(usa-west)/master.mpd",
+                k1: "252a671825ba31ec8433f978c32ccf6d",
+                k2: "ee560759ecc8d2274df2e63fcef56915"
+            },
+            "UNIVERSO": {
+                url: "https://fsly.stream.peacocktv.com/Content/CMAF_OL1-CTR-4s/Live/channel(universo-east)/master.mpd",
+                k1: "232d71bb013d39ffb92ee8c576fb7e8e",
+                k2: "087408a48be8d57046c3868b37ea90ba"
+            },
+            "AMAZON_CRICKET_ENG": {
+                url: "https://aba5sdmaaaaaaaamd2pqhgokntneg.otte.live.cf.ww.aiv-cdn.net/pdx-nitro/live/clients/dash/enc/mfvez6cbji/out/v1/108bfdad52584b3dac8da45d0b679e7d/cenc.mpd",
+                k1: "29d389f476fe821be2fa93f48377cf66",
+                k2: "a9edff53a726d123acfed56e68d0299e"
+            },
+            "AMAZON_CRICKET_HINDI": {
+                url: "https://a120aivottepl-a.akamaihd.net/pdx-nitro/live/clients/dash/enc/cikydktuif/out/v1/c0373ca1f8a441c29bb4dbb193c4a39c/cenc.mpd",
+                k1: "913680cbb31c57ae4004ec030b5ec223",
+                k2: "5ea27cc20c4fa3474e67c1a8083e45c9"
+            },
+            "FANCODE": {
+                url: "https://a39aivottlinear-a.akamaihd.net/OTTB/sin-nitro/live/clients/dash/enc/l8j2xgwt32/out/v1/fe72171ab2684ab8b9ee3e2ffcc9cff2/cenc.mpd",
+                k1: "159a2b4e1d2d7f16892d35d935a2fb34",
+                k2: "07809840dd0f511221ca78459167d1b3"
             }
+        };
 
-            // Get the video configuration based on the query parameter
-            const id = getQueryParameter('id');
-            const config = videoConfigs[id];
+        // Function to get the value of a query parameter by name
+        function getQueryParameter(name) {
+            const urlParams = new URLSearchParams(window.location.search);
+            return urlParams.get(name);
+        }
 
-            if (!config) {
-                console.error('No valid configuration found for the provided id.');
+        // Function to load the stream based on the stream ID or query parameter
+        async function loadStream() {
+            const streamId = getQueryParameter("id");
+            
+            if (!streamId || !videoConfigs[streamId]) {
+                console.error("Stream ID is missing or invalid");
                 return;
             }
 
-            // Initialize Shaka Player
-            const video = document.getElementById('video');
-            const player = new shaka.Player(video);
+            const videoElement = document.getElementById("video");
+            const player = new shaka.Player(videoElement);
 
-            // Configure DRM for the player
+            // Configure DRM for the stream using provided keys
             player.configure({
                 drm: {
                     clearKeys: {
-                        [config.k1]: config.k2 // Add the keys to the configuration
+                        [videoConfigs[streamId].k1]: videoConfigs[streamId].k2
                     }
                 }
             });
 
-            // Add event listener for error handling
-            player.addEventListener('error', onPlayerError);
-
-            // Function to handle player errors
-            function onPlayerError(event) {
-                console.error('Shaka Player error:', event.detail);
-            }
-
-            // Initialize UI controls for Shaka Player
-            const ui = new shaka.ui.Controls(video, player);
-            ui.configure({
-                seekBarColors: {
-                    base: 'rgba(255,255,255,.2)',
-                    buffered: 'rgba(255,255,255,.4)',
-                    played: 'rgb(255,0,0)',
-                }
-            });
-
-            // Try to load the video stream
+            // Load the selected stream
             try {
-                await player.load(config.url);  // Load the manifest for the video stream
-                console.log('Video is loaded successfully');
-                await video.play(); // Autoplay the video
+                await player.load(videoConfigs[streamId].url);
+                console.log(`Stream ${streamId} has been loaded!`);
             } catch (error) {
-                console.error('Error loading video:', error);
+                console.error("Error loading the stream:", error);
             }
-        })();</script>
+
+            // Update the URL with the selected stream ID (optional)
+            window.history.pushState({}, "", `?id=${streamId}`);
+        }
+
+        // Automatically load the stream based on the URL parameter
+        window.onload = function () {
+            loadStream(); // Load stream when page loads
+        };
+    </script>
+</body>
+
+</html>
