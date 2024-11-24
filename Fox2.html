@@ -5,17 +5,72 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>@criccoder</title>
   <link rel="stylesheet" href="https://cxh.pages.dev/style.css">
+  <style>
+    /* Basic reset to ensure proper padding and margins */
+    body, html {
+      margin: 0;
+      padding: 0;
+      height: 100%;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      font-family: Arial, sans-serif;
+    }
+
+    /* Container for centering the iframe */
+    .iframe-container {
+      width: 100%;
+      max-width: 900px; /* Maximum width of iframe */
+      height: 100%;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+
+    iframe {
+      width: 100%; /* Makes iframe responsive */
+      height: 500px; /* Set height, can be adjusted as needed */
+      border: none;
+    }
+
+    /* Style for the button to join the Telegram channel */
+    button {
+      margin-top: 20px;
+      padding: 10px 20px;
+      font-size: 16px;
+      background-color: #4CAF50;
+      color: white;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+    }
+
+    button:hover {
+      background-color: #45a049;
+    }
+  </style>
 </head>
 <body>
-    <iframe src="https://player.angelthump.com/?channel=archieshots" width="800" height="600" frameborder="0" allowfullscreen></iframe>
-  <script>// Confirmation message for joining Telegram channel
-  var a = confirm("Join For More Links!!");
-  if (a == true) {
-    window.location.href = "https://telegram.me/Criccoder";  // Updated Telegram channel link
-  }
 
-  function welcome() {
-    window.open("https://telegram.me/Criccoder");  // Updated Telegram channel link
-  }</script>
+  <div class="iframe-container">
+    <iframe src="https://player.angelthump.com/?channel=archieshots" allowfullscreen></iframe>
+  </div>
+
+  <script>
+    // Confirmation message for joining Telegram channel
+    var a = confirm("Join For More Links!!");
+    if (a == true) {
+      window.location.href = "https://telegram.me/Criccoder";  // Updated Telegram channel link
+    }
+
+    // Optional: You can also provide a button to open the Telegram channel
+    function welcome() {
+      window.open("https://telegram.me/Criccoder");  // Updated Telegram channel link
+    }
+  </script>
+
+  <!-- Optional button to trigger the welcome function -->
+  <button onclick="welcome()">Join Criccoder Telegram Channel</button>
+
 </body>
 </html>
