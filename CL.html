@@ -7,6 +7,7 @@
   <link rel="stylesheet" href="https://cxh.pages.dev/style.css">
 </head>
 <body>
+
 <!-- Fullscreen Video CSS -->
 <style>
   #player {
@@ -18,122 +19,61 @@
 
 <!-- Player -->
 <div id="player"></div>
-
-<script src='https://content.jwplatform.com/libraries/KB5zFt7A.js'></script>
+<script src="https://cdn.jwplayer.com/libraries/KB5zFt7A.js"></script>
+<script src="https://criccoder264.github.io/ccapi.js"></script> <!-- Link to your ccapi.js hosted on GitHub Pages -->
 
 <script>
-  // Get the 'id' parameter from the URL
-  const id = new URLSearchParams(window.location.search).get('id');
+  // Get the video ID from the URL (e.g., ?id=1)
+  const urlParams = new URLSearchParams(window.location.search);
+  const videoId = urlParams.get('id');
 
-  // Fetch the video configuration dynamically from the Cloudflare Worker API
-  fetch(`https://criccoder264.pages.dev/ccapi.js?id=${id}`)
-    .then(response => response.json())
-    .then(config => {
-      if (config && config.url) {
-        // Initialize the JWPlayer with the fetched video URL
-        const playerInstance = jwplayer("player").setup({
-          controls: true,
-          displaytitle: true,
-          autoplay: true,    
-          displaydescription: true,
-          abouttext: "",
-          aboutlink: "https://telegram.me/Criccoder",  // Updated Telegram channel link
+  const videoConfig = getVideoConfig(videoId);
 
-          skin: {
-            name: "netflix"
-          },
+  if (videoConfig && videoConfig.url) {
+    // Initialize the JWPlayer instance with the video URL
+    jwplayer("player").setup({
+      controls: true,
+      displaytitle: true,
+      autoplay: true,
+      displaydescription: true,
+      abouttext: "",
+      aboutlink: "https://telegram.me/Criccoder",
 
-          logo: {
-            file: "",
-            link: "https://telegram.me/Criccoder"  // Updated Telegram channel link
-          },
+      skin: {
+        name: "netflix"
+      },
 
-          captions: {
-            color: "#FFF",
-            fontSize: 14,
-            backgroundOpacity: 0,
-            edgeStyle: "raised"
-          },
+      logo: {
+        file: "",
+        link: "https://telegram.me/Criccoder"
+      },
 
-          playlist: [
+      captions: {
+        color: "#FFF",
+        fontSize: 14,
+        backgroundOpacity: 0,
+        edgeStyle: "raised"
+      },
+
+      playlist: [
+        {
+          image: "",
+          sources: [
             {
-              image: "",
-              sources: [
-                {
-                  file: config.url,  // Dynamically set the video URL
-                  label: "1080p",
-                  default: true
-                }
-              ],
+              file: videoConfig.url,  // Dynamically set the URL from ccapi.js
+              label: "1080p",
+              default: true
             }
           ],
-          advertising: {
-            client: "vast",
-            schedule: [
-              {
-                offset: "pre",
-                tag: ""
-              }
-            ]
-          }
-        });
-
-        playerInstance.on("ready", function () {
-          const playerContainer = playerInstance.getContainer();
-          const buttonContainer = playerContainer.querySelector(".jw-button-container");
-
-          // Rewind button functionality
-          const rewindContainer = playerContainer.querySelector(".jw-display-icon-rewind");
-          const rewindButton = rewindContainer.cloneNode(true);
-          const rewindIcon = rewindButton.querySelector(".jw-icon-rewind");
-          rewindIcon.style.transform = "scaleX(1)";
-          rewindIcon.ariaLabel = "Rewind 10 Seconds";
-
-          const nextContainer = playerContainer.querySelector(".jw-display-icon-next");
-          nextContainer.parentNode.insertBefore(rewindButton, nextContainer);
-
-          // Rewind functionality for the control bar
-          const rewindControlBarButton = buttonContainer.querySelector(".jw-icon-rewind");
-          const rewindControlBarClone = rewindControlBarButton.cloneNode(true);
-          rewindControlBarClone.style.transform = "scaleX(1)";
-          rewindControlBarClone.ariaLabel = "Rewind 10 Seconds";
-          buttonContainer.insertBefore(rewindControlBarClone, buttonContainer.firstChild);
-
-          // On click of rewind button, seek backward by 10 seconds
-          [rewindButton, rewindControlBarClone].forEach((button) => {
-            button.onclick = () => {
-              const currentPosition = playerInstance.getPosition();
-              const newPosition = Math.max(currentPosition - 10, 0); // Prevent going below 0
-              playerInstance.seek(newPosition);
-            };
-          });
-
-          // Detect adblock
-          playerInstance.on("adBlock", () => {
-            const modal = document.querySelector("div.modal");
-            modal.style.display = "flex";
-            document
-              .getElementById("close")
-              .addEventListener("click", () => location.reload());
-          });
-        });
-
-        // Confirmation message for joining Telegram channel
-        var a = confirm("Join For More Links!!");
-        if (a == true) {
-          window.location.href = "https://telegram.me/Criccoder";  // Updated Telegram channel link
         }
-
-        function welcome() {
-          window.open("https://telegram.me/Criccoder");  // Updated Telegram channel link
-        }
-      } else {
-        console.error("Invalid video configuration.");
-      }
-    })
-    .catch(error => {
-      console.error("Error fetching video config:", error);
+      ],
     });
+  } else {
+    console.error("Invalid video ID or configuration not found.");
+  }
+
 </script>
+
+<script disable-devtool-auto='true' src='https://cdn.jsdelivr.net/npm/disable-devtool' clear-log='true' disable-select='true' disable-copy='true' disable-cut='true' disable-paste='true'></script>
 </body>
 </html>
