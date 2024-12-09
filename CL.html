@@ -1,89 +1,141 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="referrer" content="no-referrer">
-    <title>@criccoder</title>
-
-    <!-- JWPlayer Script -->
-    <script src="https://content.jwplatform.com/libraries/KB5zFt7A.js"></script>
-    <script>jwplayer.key = "MOYE-MOYE";</script>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>@criccoder</title>
+  <link rel="stylesheet" href="https://cxh.pages.dev/style.css">
 </head>
 <body>
-    <div id="player"></div>
+<!-- Fullscreen Video CSS -->
+<style>
+  #player {
+    position: absolute;
+    width: 100% !important;
+    height: 100% !important;
+  }
+</style>
 
-    <!-- Telegram Channel Invitation -->
-    <div id="telegram-invite" onclick="window.location.href='https://telegram.me/criccoder'">
-        Join Our Telegram Channel @criccoder
-    </div>
+<!-- Player -->
+<div id="player"></div>
 
-    <script>
-        // Video Configuration based on the 'id' query parameter
-        const videoConfigs = {
-            "1": {
-                url: "https://securetoolideas.art/live/1/chunks.m3u8?bongls.com"
-            },
-            "2": {
-                url: "https://allfreeshoping.online/live/stream_ep2.m3u8"
-            },
-            "3": {
-                url: "https://randomsiteslist.xyz/live/1/chunks.m3u8?bongls.com"
-            },
-            	
-        };
+<script src='https://content.jwplatform.com/libraries/KB5zFt7A.js'></script>
 
-        // Function to get the query parameter 'id'
-        function getQueryParameter(name) {
-            const urlParams = new URLSearchParams(window.location.search);
-            return urlParams.get(name);
-        }
+<script>
+  // Get the 'id' parameter from the URL
+  const id = new URLSearchParams(window.location.search).get('id');
 
-        // Get the 'id' parameter from the URL (e.g., ?id=1 or ?id=2)
-        const id = getQueryParameter('id');
-        const config = videoConfigs[id];
+  // Fetch the video configuration dynamically from the Cloudflare Worker API
+  fetch(`https://criccoder264.pages.dev/ccapi.js?id=${id}`)
+    .then(response => response.json())
+    .then(config => {
+      if (config && config.url) {
+        // Initialize the JWPlayer with the fetched video URL
+        const playerInstance = jwplayer("player").setup({
+          controls: true,
+          displaytitle: true,
+          autoplay: true,    
+          displaydescription: true,
+          abouttext: "",
+          aboutlink: "https://telegram.me/Criccoder",  // Updated Telegram channel link
 
-        if (!config) {
-            console.error('No valid configuration found for the provided id.');
-        } else {
-            // JWPlayer setup
-            var player = jwplayer("player");
-            player.setup({
-                file: config.url,  // Load the stream URL based on the 'id'
-                width: "100%",
-                height: "100%",
-                playbackRateControls: true,
-                hlsjsConfig: {
-                    // Use HLS.js settings to improve performance and fix issues
-                    capLevelToPlayerSize: true,
-                    maxMaxBufferLength: 30, // Limit the buffer length to avoid excessive buffering
-                    maxBufferLength: 60, // Max buffer length in seconds
-                    maxBufferSize: 60 * 1000 * 1000, // Max buffer size in bytes
-                    startLevel: -1, // Start with the best available quality
-                    liveSyncDuration: 30, // Sync live streams with a buffer of 30 seconds
-                    liveMaxLatencyDuration: 60, // Maximum latency for live streams
-                },
-                events: {
-                    onError: function(event) {
-                        console.error('JWPlayer error:', event.message);
-                    },
-                    onReady: function() {
-                        console.log('JWPlayer is ready and stream is loading...');
-                    },
-                    onBuffer: function(event) {
-                        console.log('Buffering:', event);
-                    },
-                    onPlay: function() {
-                        console.log('Playback started');
-                    }
+          skin: {
+            name: "netflix"
+          },
+
+          logo: {
+            file: "",
+            link: "https://telegram.me/Criccoder"  // Updated Telegram channel link
+          },
+
+          captions: {
+            color: "#FFF",
+            fontSize: 14,
+            backgroundOpacity: 0,
+            edgeStyle: "raised"
+          },
+
+          playlist: [
+            {
+              image: "",
+              sources: [
+                {
+                  file: config.url,  // Dynamically set the video URL
+                  label: "1080p",
+                  default: true
                 }
-            });
+              ],
+            }
+          ],
+          advertising: {
+            client: "vast",
+            schedule: [
+              {
+                offset: "pre",
+                tag: ""
+              }
+            ]
+          }
+        });
+
+        playerInstance.on("ready", function () {
+          const playerContainer = playerInstance.getContainer();
+          const buttonContainer = playerContainer.querySelector(".jw-button-container");
+
+          // Rewind button functionality
+          const rewindContainer = playerContainer.querySelector(".jw-display-icon-rewind");
+          const rewindButton = rewindContainer.cloneNode(true);
+          const rewindIcon = rewindButton.querySelector(".jw-icon-rewind");
+          rewindIcon.style.transform = "scaleX(1)";
+          rewindIcon.ariaLabel = "Rewind 10 Seconds";
+
+          const nextContainer = playerContainer.querySelector(".jw-display-icon-next");
+          nextContainer.parentNode.insertBefore(rewindButton, nextContainer);
+
+          // Rewind functionality for the control bar
+          const rewindControlBarButton = buttonContainer.querySelector(".jw-icon-rewind");
+          const rewindControlBarClone = rewindControlBarButton.cloneNode(true);
+          rewindControlBarClone.style.transform = "scaleX(1)";
+          rewindControlBarClone.ariaLabel = "Rewind 10 Seconds";
+          buttonContainer.insertBefore(rewindControlBarClone, buttonContainer.firstChild);
+
+          // On click of rewind button, seek backward by 10 seconds
+          [rewindButton, rewindControlBarClone].forEach((button) => {
+            button.onclick = () => {
+              const currentPosition = playerInstance.getPosition();
+              const newPosition = Math.max(currentPosition - 10, 0); // Prevent going below 0
+              playerInstance.seek(newPosition);
+            };
+          });
+
+          // Detect adblock
+          playerInstance.on("adBlock", () => {
+            const modal = document.querySelector("div.modal");
+            modal.style.display = "flex";
+            document
+              .getElementById("close")
+              .addEventListener("click", () => location.reload());
+          });
+        });
+
+        // Confirmation message for joining Telegram channel
+        var a = confirm("Join For More Links!!");
+        if (a == true) {
+          window.location.href = "https://telegram.me/Criccoder";  // Updated Telegram channel link
         }
 
-        // Telegram redirection prompt
-        if (confirm("Join Our Telegram Channel @criccoder")) {
-            window.location.href = "https://telegram.me/criccoder";
+        function welcome() {
+          window.open("https://telegram.me/Criccoder");  // Updated Telegram channel link
         }
-    </script>
+      } else {
+        console.error("Invalid video configuration.");
+      }
+    })
+    .catch(error => {
+      console.error("Error fetching video config:", error);
+    });
+</script>
+
+<script disable-devtool-auto='true' src='https://cdn.jsdelivr.net/npm/disable-devtool' clear-log='true' disable-select='true' disable-copy='true' disable-cut='true' disable-paste='true'></script>
 </body>
 </html>
