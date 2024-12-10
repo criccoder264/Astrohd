@@ -3,14 +3,15 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>@criccoder</title>
-  <link rel="stylesheet" href="https://cxh.pages.dev/style.css">
+  <title>Stream Player</title>
+  <!-- Include JW Player Script -->
+  <script src="https://cdn.jwplayer.com/libraries/KB5zFt7A.js"></script>
 </head>
 <body>
 
 <!-- Fullscreen Video CSS -->
 <style>
-  #player {
+  #jw-player-container {
     position: absolute;
     width: 100% !important;
     height: 100% !important;
@@ -18,63 +19,43 @@
 </style>
 
 <!-- Player -->
-<div id="player"></div>
-<script src="https://cdn.jwplayer.com/libraries/KB5zFt7A.js"></script>
+<div id="jw-player-container"></div>
 
 <script>
-  // Manually define the video sources (m3u8 URLs) and their names
-  const videoUrls = [
-    { name: "1", url: "https://prod-sports-eng-cf.jiocinema.com/hls/live/2100307/hd_akamai_merged_avc_eng_cricket_m9_101224/master.m3u8" }, // First stream URL with name "1"
-    { name: "2", url: "https://jcevents.jiocinema.com/bpk-tv/JC_Sports18_1HD/JCHLS/hdntl=exp=1733930792~acl=%2F*~id=aaf549ec51984c86b32dd7de3e1334c7~data=hdntl~hmac=bcb326e8b6a3bbbf8533262c8cf6c82adc4213a53bb8f7042380bae8243a4c1d/JC_Sports18_1HD.m3u8" }, // Second stream URL with name "2"
-    { name: "3", url: "https://path.to/stream3.m3u8" }  // Third stream URL with name "3"
-  ];
+  // Video stream configurations (without token)
+  const videoConfigs = {
+    "1": {
+      url: "https://prod-sports-eng-cf.jiocinema.com/hls/live/2100307/hd_akamai_merged_avc_eng_cricket_m9_101224/master.m3u8"  // M3U8 stream URL (HLS)
+    },
+    "2": {
+      url: "https://jcevents.jiocinema.com/bpk-tv/JC_Sports18_1HD/JCHLS/hdntl=exp=1733930792~acl=%2F*~id=aaf549ec51984c86b32dd7de3e1334c7~data=hdntl~hmac=bcb326e8b6a3bbbf8533262c8cf6c82adc4213a53bb8f7042380bae8243a4c1d/JC_Sports18_1HD.m3u8"  // Example M3U8 URL
+    },
+    "WILLOWHD1": {
+      url: "https://example.com/WILLOWHD1/index.m3u8"  // Example M3U8 URL
+    },
+    // Add more streams as needed
+  };
 
-  // Get the video ID from the URL query parameter (e.g., ?id=1)
+  // Get the query parameter 'id' from the URL
   const urlParams = new URLSearchParams(window.location.search);
-  const videoId = urlParams.get('id'); // Fetch the 'id' parameter
+  const streamId = urlParams.get('id');  // Extract 'id' parameter from URL
 
-  // Find the corresponding stream by ID, default to the first stream if not found
-  const selectedStream = videoUrls.find(video => video.name === videoId) || videoUrls[0];
+  // Check if the 'id' parameter exists and is valid
+  if (streamId && videoConfigs[streamId]) {
+    const videoConfig = videoConfigs[streamId]; // Access the config for the provided 'id'
+    
+    // Initialize JW Player
+    jwplayer("jw-player-container").setup({
+      file: videoConfig.url, // M3U8 stream URL
+      width: "100%",  // Player width
+      height: "100%", // Player height
+      autostart: true, // Autoplay when ready
+      controls: true   // Enable player controls (play, pause, volume, etc.)
+    });
 
-  // Initialize the JWPlayer instance with the selected m3u8 URL
-  const sources = videoUrls.map((video, index) => ({
-    file: video.url,
-    label: video.name,  // Use the name (1, 2, 3) as the label for the stream
-    default: video.name === selectedStream.name  // Set the selected stream as default
-  }));
-
-  jwplayer("player").setup({
-    controls: true,
-    displaytitle: true,
-    autoplay: true,
-    displaydescription: true,
-    abouttext: "",
-    aboutlink: "https://telegram.me/Criccoder",
-
-    skin: {
-      name: "netflix"
-    },
-
-    logo: {
-      file: "",
-      link: "https://telegram.me/Criccoder"
-    },
-
-    captions: {
-      color: "#FFF",
-      fontSize: 14,
-      backgroundOpacity: 0,
-      edgeStyle: "raised"
-    },
-
-    playlist: [
-      {
-        image: "",
-        sources: sources,
-      }
-    ],
-  });
-   if(confirm("Join Our Telegram Channel @criccoder")) { window.location.href = "https://telegram.me/criccoder" }
+  } else {
+    alert('Invalid or missing stream id. Please specify a valid "id" in the URL.');
+  }
 </script>
 
 </body>
