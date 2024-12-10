@@ -20,58 +20,61 @@
 <!-- Player -->
 <div id="player"></div>
 <script src="https://cdn.jwplayer.com/libraries/KB5zFt7A.js"></script>
-<script src="https://criccoder264.github.io/ccapi.js"></script> <!-- Link to your ccapi.js hosted on GitHub Pages -->
 
 <script>
-  // Get the video ID from the URL (e.g., ?id=1)
+  // Manually define the video sources (m3u8 URLs) and their names
+  const videoUrls = [
+    { name: "1", url: "https://prod-sports-eng-cf.jiocinema.com/hls/live/2100307/hd_akamai_merged_avc_eng_cricket_m9_101224/master.m3u8" }, // First stream URL with name "1"
+    { name: "2", url: "https://jcevents.jiocinema.com/bpk-tv/JC_Sports18_1HD/JCHLS/hdntl=exp=1733930792~acl=%2F*~id=aaf549ec51984c86b32dd7de3e1334c7~data=hdntl~hmac=bcb326e8b6a3bbbf8533262c8cf6c82adc4213a53bb8f7042380bae8243a4c1d/JC_Sports18_1HD.m3u8" }, // Second stream URL with name "2"
+    { name: "3", url: "https://path.to/stream3.m3u8" }  // Third stream URL with name "3"
+  ];
+
+  // Get the video ID from the URL query parameter (e.g., ?id=1)
   const urlParams = new URLSearchParams(window.location.search);
-  const videoId = urlParams.get('id');
+  const videoId = urlParams.get('id'); // Fetch the 'id' parameter
 
-  const videoConfig = getVideoConfig(videoId);
+  // Find the corresponding stream by ID, default to the first stream if not found
+  const selectedStream = videoUrls.find(video => video.name === videoId) || videoUrls[0];
 
-  if (videoConfig && videoConfig.url) {
-    // Initialize the JWPlayer instance with the video URL
-    jwplayer("player").setup({
-      controls: true,
-      displaytitle: true,
-      autoplay: true,
-      displaydescription: true,
-      abouttext: "",
-      aboutlink: "https://telegram.me/Criccoder",
+  // Initialize the JWPlayer instance with the selected m3u8 URL
+  const sources = videoUrls.map((video, index) => ({
+    file: video.url,
+    label: video.name,  // Use the name (1, 2, 3) as the label for the stream
+    default: video.name === selectedStream.name  // Set the selected stream as default
+  }));
 
-      skin: {
-        name: "netflix"
-      },
+  jwplayer("player").setup({
+    controls: true,
+    displaytitle: true,
+    autoplay: true,
+    displaydescription: true,
+    abouttext: "",
+    aboutlink: "https://telegram.me/Criccoder",
 
-      logo: {
-        file: "",
-        link: "https://telegram.me/Criccoder"
-      },
+    skin: {
+      name: "netflix"
+    },
 
-      captions: {
-        color: "#FFF",
-        fontSize: 14,
-        backgroundOpacity: 0,
-        edgeStyle: "raised"
-      },
+    logo: {
+      file: "",
+      link: "https://telegram.me/Criccoder"
+    },
 
-      playlist: [
-        {
-          image: "",
-          sources: [
-            {
-              file: videoConfig.url,  // Dynamically set the URL from ccapi.js
-              label: "1080p",
-              default: true
-            }
-          ],
-        }
-      ],
-    });
-  } else {
-    console.error("Invalid video ID or configuration not found.");
-  }
+    captions: {
+      color: "#FFF",
+      fontSize: 14,
+      backgroundOpacity: 0,
+      edgeStyle: "raised"
+    },
 
+    playlist: [
+      {
+        image: "",
+        sources: sources,
+      }
+    ],
+  });
 </script>
+
 </body>
 </html>
