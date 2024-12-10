@@ -22,7 +22,7 @@
 <script src="https://cdn.jwplayer.com/libraries/KB5zFt7A.js"></script>
 
 <script>
-    // Video stream configurations (without token)
+  // Video stream configurations (without token)
   const videoConfigs = {
     "1": {
       url: "https://prod-sports-eng-cf.jiocinema.com/hls/live/2100307/hd_akamai_merged_avc_eng_cricket_m9_101224/master.m3u8"  // M3U8 stream URL (HLS)
@@ -41,27 +41,35 @@
   const streamId = urlParams.get('id');  // Extract 'id' parameter from URL
 
   // Check if the 'id' parameter exists and is valid
-  if (streamId && videoConfigs[streamId]) {
-    const videoConfig = videoConfigs[streamId]; // Access the config for the provided 'id'
-    
-    // Initialize JW Player
-    jwplayer("jw-player-container").setup({
+  const videoConfig = videoConfigs[streamId];
+
+  if (videoConfig) {
+    // Initialize JW Player with the selected stream
+    jwplayer("player").setup({
       file: videoConfig.url, // M3U8 stream URL
       width: "100%",  // Player width
       height: "100%", // Player height
       autostart: true, // Autoplay when ready
-      controls: true   // Enable player controls (play, pause, volume, etc.)
+      controls: true,  // Enable player controls (play, pause, volume, etc.)
     });
-
   } else {
-    alert('Invalid or missing stream id. Please specify a valid "id" in the URL.');
+    // If the stream ID is invalid or missing, use the default stream (first one) or display an error
+    alert('Invalid or missing stream ID. Please specify a valid "id" in the URL.');
+    // Optionally redirect to a default stream or show a message to the user
+    // jwplayer("player").setup({
+    //   file: videoConfigs["1"].url, // Load the default stream (1)
+    //   width: "100%",
+    //   height: "100%",
+    //   autostart: true,
+    //   controls: true,
+    // });
   }
+
   // Optionally show a confirmation link for Telegram
-  if(confirm("Join Our Telegram Channel @criccoder")) { 
+  if (confirm("Join Our Telegram Channel @criccoder")) { 
     window.location.href = "https://telegram.me/criccoder"; 
   }
 </script>
 
 </body>
 </html>
-
