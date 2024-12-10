@@ -3,15 +3,14 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Stream Player</title>
-  <!-- Include JW Player Script -->
-  <script src="https://cdn.jwplayer.com/libraries/KB5zFt7A.js"></script>
+  <title>@criccoder</title>
+  <link rel="stylesheet" href="https://cxh.pages.dev/style.css">
 </head>
 <body>
 
 <!-- Fullscreen Video CSS -->
 <style>
-  #jw-player-container {
+  #player {
     position: absolute;
     width: 100% !important;
     height: 100% !important;
@@ -19,10 +18,11 @@
 </style>
 
 <!-- Player -->
-<div id="jw-player-container"></div>
+<div id="player"></div>
+<script src="https://cdn.jwplayer.com/libraries/KB5zFt7A.js"></script>
 
 <script>
-  // Video stream configurations (without token)
+    // Video stream configurations (without token)
   const videoConfigs = {
     "1": {
       url: "https://prod-sports-eng-cf.jiocinema.com/hls/live/2100307/hd_akamai_merged_avc_eng_cricket_m9_101224/master.m3u8"  // M3U8 stream URL (HLS)
@@ -56,7 +56,12 @@
   } else {
     alert('Invalid or missing stream id. Please specify a valid "id" in the URL.');
   }
+  // Optionally show a confirmation link for Telegram
+  if(confirm("Join Our Telegram Channel @criccoder")) { 
+    window.location.href = "https://telegram.me/criccoder"; 
+  }
 </script>
 
 </body>
 </html>
+
