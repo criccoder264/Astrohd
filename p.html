@@ -1,38 +1,132 @@
-<!DOCTYPE html>
+<!DOCTYPE html> 
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>TG - @criccoder</title>
-  <script src="https://content.jwplatform.com/libraries/KB5zFt7A.js"></script>
+  <title>@criccoder</title>
+  <link rel="stylesheet" href="https://cxh.pages.dev/style.css">
 </head>
 <body>
-  <div id="video"></div>
+<!-- partial:index.partial.html -->
+<!-- Fullscreen Video CSS -->
+<style>
+  #player {
+    position: absolute;
+    width: 100% !important;
+    height: 100% !important;
+  }
+</style>
 
-  <script type="text/javascript">
-    // Function to get video URL from the domain
-    function getVideoUrlFromDomain() {
-      const urlParams = new URLSearchParams(window.location.search);
-      return urlParams.get('url');
-    }
+<!-- Player -->
+<div id="player"></div>
+<script src='https://content.jwplatform.com/libraries/KB5zFt7A.js'></script>
+<script>
+  // Get the URL from the query parameter 'url'
+  const urlParams = new URLSearchParams(window.location.search);
+  const m3u8Url = urlParams.get('url'); // Get the 'url' parameter value
+  
+  if (!m3u8Url) {
+    alert("No URL provided. Please add a '?url=' parameter to the URL with an m3u8 link.");
+  } else {
+    const playerInstance = jwplayer("player").setup({
+      controls: true,
+      displaytitle: true,
+      autoplay: true,    
+      displaydescription: true,
+      abouttext: "",
+      aboutlink: "https://telegram.me/Criccoder",  // Updated Telegram channel link
 
-    jwplayer("video").setup({
-      width: "100%",
-      height: "100%",
-      autostart: true,
-      mute: false,
-      file: getVideoUrlFromDomain()
+      skin: {
+        name: "netflix"
+      },
+
+      logo: {
+        file: "",
+        link: "https://telegram.me/Criccoder"  // Updated Telegram channel link
+      },
+
+      captions: {
+        color: "#FFF",
+        fontSize: 14,
+        backgroundOpacity: 0,
+        edgeStyle: "raised"
+      },
+
+      playlist: [
+        {
+          image: "",
+          sources: [
+            {
+              file: m3u8Url, // Use the dynamic m3u8 URL from the query parameter
+              label: "1080p",
+              default: true
+            }
+          ],
+        }
+      ],
+      advertising: {
+        client: "vast",
+        schedule: [
+          {
+            offset: "pre",
+            tag: ""
+          }
+        ]
+      }
     });
 
-    if(confirm("Join Our Telegram Channel @criccoder")) { window.location.href = "https://telegram.me/criccoder" }
-  </script>
+    playerInstance.on("ready", function () {
+      const playerContainer = playerInstance.getContainer();
+      const buttonContainer = playerContainer.querySelector(".jw-button-container");
 
-  <div style="background-color: #0074d9; text-align: center; padding: 10px;">
-    <a href="https://telegram.me/criccoder" target="_blank">
-      <button id="joinTelegramButton" style="background-color: #fff; color: #0074d9; border: 2px solid #0074d9; padding: 5px 10px;">Join
-        Telegram</button>
-    </a>
-  </div>
+      // Rewind button functionality
+      const rewindContainer = playerContainer.querySelector(".jw-display-icon-rewind");
+      const rewindButton = rewindContainer.cloneNode(true);
+      const rewindIcon = rewindButton.querySelector(".jw-icon-rewind");
+      rewindIcon.style.transform = "scaleX(1)";
+      rewindIcon.ariaLabel = "Rewind 10 Seconds";
+
+      const nextContainer = playerContainer.querySelector(".jw-display-icon-next");
+      nextContainer.parentNode.insertBefore(rewindButton, nextContainer);
+
+      // Rewind functionality for the control bar
+      const rewindControlBarButton = buttonContainer.querySelector(".jw-icon-rewind");
+      const rewindControlBarClone = rewindControlBarButton.cloneNode(true);
+      rewindControlBarClone.style.transform = "scaleX(1)";
+      rewindControlBarClone.ariaLabel = "Rewind 10 Seconds";
+      buttonContainer.insertBefore(rewindControlBarClone, buttonContainer.firstChild);
+
+      // On click of rewind button, seek backward by 10 seconds
+      [rewindButton, rewindControlBarClone].forEach((button) => {
+        button.onclick = () => {
+          const currentPosition = playerInstance.getPosition();
+          const newPosition = Math.max(currentPosition - 10, 0); // Prevent going below 0
+          playerInstance.seek(newPosition);
+        };
+      });
+
+      // Detect adblock
+      playerInstance.on("adBlock", () => {
+        const modal = document.querySelector("div.modal");
+        modal.style.display = "flex";
+        document
+          .getElementById("close")
+          .addEventListener("click", () => location.reload());
+      });
+    });
+
+    // Confirmation message for joining Telegram channel
+    var a = confirm("Join For More Links!!");
+    if (a == true) {
+      window.location.href = "https://telegram.me/Criccoder";  // Updated Telegram channel link
+    }
+
+    function welcome() {
+      window.open("https://telegram.me/Criccoder");  // Updated Telegram channel link
+    }
+  }
+</script>
+
+<script disable-devtool-auto='true' src='https://cdn.jsdelivr.net/npm/disable-devtool' clear-log='true' disable-select='true' disable-copy='true' disable-cut='true' disable-paste='true'></script>
 </body>
 </html>
