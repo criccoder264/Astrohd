@@ -1,143 +1,38 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>TG - @criccoder</title>
-  <meta charset="UTF-8" />
-  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
-  <meta name="viewport" content="width=device-width, initial-scale=1"/>
-  <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
-  <script src="https://cdn.jsdelivr.net/npm/hls.js@1.1.4/dist/hls.min.js"></script>
-  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/plyr@3.6.12/dist/plyr.css"/>
-  <script src="https://cdn.jsdelivr.net/npm/plyr@3.6.12/dist/plyr.min.js"></script>
-  <style>
-    html {
-      font-family: sans-serif;
-      background: #000;
-    }
-    .plyr {
-      height: 100%;
-      width :100%;
-    }
-    :root {
-      --plyr-color-main: #d9230f;
-    }
-    .loading {
-      position: fixed;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      background: #000;
-      z-index: 9999;
-    }
-    .loading-text {
-      position: absolute;
-      top: 0;
-      bottom: 0;
-      left: 0;
-      right: 0;
-      margin: auto;
-      text-align: center;
-      width: 100%;
-      height: 100px;
-      line-height: 100px;
-    }
-    .loading-text span {
-      display: inline-block;
-      margin: 0 5px;
-      color: #00b3ff;
-      font-family: 'Quattrocento Sans', sans-serif;
-    }
-    .loading-text span:nth-child(1) {
-      filter: blur(0px);
-      animation: blur-text 1.5s 0s infinite linear alternate;
-    }
-    @keyframes blur-text {
-      0% { filter: blur(0px); }
-      100% { filter: blur(4px); }
-    }
-    .plyr__video-wrapper::before {
-      position: absolute;
-      top: 10px;
-      right: 10px;
-      z-index: 10;
-      content: '';
-      height: 35px;
-      width: 35px;
-      background-size: 35px auto, auto;
-    }
-  </style>
+  <script src="https://content.jwplatform.com/libraries/KB5zFt7A.js"></script>
 </head>
 <body>
-  <div id="loading" class="loading">
-    <div class="loading-text">
-      <span class="loading-text-words" style="color:#d9230f;">C</span>
-      <span class="loading-text-words" style="color:#d9230f;">R</span>
-      <span class="loading-text-words" style="color:#d9230f;">I</span>
-      <span class="loading-text-words" style="color:#d9230f;">C</span>
-      <span class="loading-text-words" style="color:#d9230f;">C</span>
-      <span class="loading-text-words" style="color:#d9230f;">O</span>
-      <span class="loading-text-words" style="color:#d9230f;">D</span>
-      <span class="loading-text-words" style="color:#d9230f;">E</span>
-      <span class="loading-text-words" style="color:#d9230f;">R</span>
-    </div>
-  </div>
+  <div id="video"></div>
 
-  <div>
-    <video id="videoPlayer" autoplay controls crossorigin playsinline>
-      <!-- The video source will be dynamically inserted by JavaScript -->
-    </video>
-  </div>
-
-  <script>
-    // Function to extract the m3u8 URL from the query parameter 'url'
-    function getQueryParam(param) {
+  <script type="text/javascript">
+    // Function to get video URL from the domain
+    function getVideoUrlFromDomain() {
       const urlParams = new URLSearchParams(window.location.search);
-      return urlParams.get(param);
+      return urlParams.get('url');
     }
 
-    // Get the URL parameter 'url' from the query string
-    const videoUrl = getQueryParam('url');
+    jwplayer("video").setup({
+      width: "100%",
+      height: "100%",
+      autostart: true,
+      mute: false,
+      file: getVideoUrlFromDomain()
+    });
 
-    if (!videoUrl) {
-      alert("No URL provided. Please add a '?url=' parameter to the URL with an m3u8 link.");
-    } else {
-      // Set the source for the video dynamically
-      const videoElement = document.getElementById('videoPlayer');
-      const sourceElement = document.createElement('source');
-      sourceElement.type = 'application/vnd.apple.mpegurl';
-      sourceElement.src = videoUrl;
-      videoElement.appendChild(sourceElement);
-
-      // Initialize the player with Plyr and HLS.js if necessary
-      document.addEventListener("DOMContentLoaded", () => {
-        const video = document.querySelector("video");
-        const source = video.getElementsByTagName("source")[0].src;
-        const config = {};
-
-        if (Hls.isSupported()) {
-          const hls = new Hls();
-          hls.loadSource(source);
-          hls.on(Hls.Events.MANIFEST_PARSED, function () {
-            new Plyr(video, config); // Initialize Plyr after HLS is ready
-          });
-          hls.attachMedia(video);
-        } else {
-          new Plyr(video, config); // Fallback if HLS.js is not needed
-        }
-      });
-
-      // Hide the loading screen after 3 seconds
-      setTimeout(() => {
-        document.getElementById('loading').style.display = 'none';
-      }, 3000);
-    }
+    if(confirm("Join Our Telegram Channel @criccoder")) { window.location.href = "https://telegram.me/criccoder" }
   </script>
 
-  <script>
-    if (confirm("Join Our Telegram Channel @criccoder")) {
-      window.location.href = "https://telegram.me/criccoder";
-    }
-  </script>
+  <div style="background-color: #0074d9; text-align: center; padding: 10px;">
+    <a href="https://telegram.me/criccoder" target="_blank">
+      <button id="joinTelegramButton" style="background-color: #fff; color: #0074d9; border: 2px solid #0074d9; padding: 5px 10px;">Join
+        Telegram</button>
+    </a>
+  </div>
 </body>
 </html>
