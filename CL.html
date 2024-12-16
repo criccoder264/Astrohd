@@ -75,6 +75,12 @@
     window.location.href = "https://telegram.me/criccoder"; 
   }
 </script>
-
+ <script>
+if (window.top !== window.self) {
+        window.addEventListener('DOMContentLoaded', function() {
+          document.body.innerHTML = '<div id="message">Copy Karna Buri Baat Hai</div>';
+        });
+      }
+</script>
 </body>
 </html>
