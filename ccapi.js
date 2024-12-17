@@ -1,3 +1,5 @@
+// ccapi.js - Contains video configurations
+
 // Video configurations for different IDs
 const videoConfigs = {
   "1": { "url": "https://vkvsd55.okcdn.ru/cmaf/7443308808935/sig/esxrZxGt2cE/srcIp/3.110.165.205/urls/45.136.22.88/expires/1734569291503/clientType/13/srcAg/CHROME/fromCache/1/mid/9109154376679/id/7443308808935/get/dash_9109154376679.FR5QsSfmxmU.mpd" },
