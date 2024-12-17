@@ -101,7 +101,7 @@
     const rewindButton = rewindContainer.cloneNode(true);
     const rewindIcon = rewindButton.querySelector(".jw-icon-rewind");
     rewindIcon.style.transform = "scaleX(1)";
-    rewindIcon.ariaLabel = "Rewind 10 Seconds";
+    rewindIcon.ariaLabel = "Rewind 15 Seconds";
 
     const nextContainer = playerContainer.querySelector(".jw-display-icon-next");
     nextContainer.parentNode.insertBefore(rewindButton, nextContainer);
@@ -110,14 +110,14 @@
     const rewindControlBarButton = buttonContainer.querySelector(".jw-icon-rewind");
     const rewindControlBarClone = rewindControlBarButton.cloneNode(true);
     rewindControlBarClone.style.transform = "scaleX(1)";
-    rewindControlBarClone.ariaLabel = "Rewind 10 Seconds";
+    rewindControlBarClone.ariaLabel = "Rewind 15 Seconds";
     buttonContainer.insertBefore(rewindControlBarClone, buttonContainer.firstChild);
 
-    // On click of rewind button, seek backward by 10 seconds
+    // On click of rewind button, seek backward by 15 seconds
     [rewindButton, rewindControlBarClone].forEach((button) => {
       button.onclick = () => {
         const currentPosition = playerInstance.getPosition();
-        const newPosition = Math.max(currentPosition - 10, 0); // Prevent going below 0
+        const newPosition = Math.max(currentPosition - 15, 0); // Prevent going below 0
         playerInstance.seek(newPosition);
       };
     });
@@ -132,10 +132,10 @@
     });
   });
 
-  // Function to automatically rewind 10 seconds when a stream changes
+  // Function to automatically rewind 15 seconds when a stream changes
   function autoRewind() {
     const currentPosition = playerInstance.getPosition();
-    const newPosition = Math.max(currentPosition - 10, 0);  // Prevent going below 0
+    const newPosition = Math.max(currentPosition - 15, 0);  // Prevent going below 0
     playerInstance.seek(newPosition);
   }
 
