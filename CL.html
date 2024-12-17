@@ -7,7 +7,6 @@
   <link rel="stylesheet" href="https://cxh.pages.dev/style.css">
 </head>
 <body>
-<!-- partial:index.partial.html -->
 <!-- Fullscreen Video CSS -->
 <style>
   #player {
@@ -113,7 +112,7 @@
     rewindControlBarClone.ariaLabel = "Rewind 5 Seconds";
     buttonContainer.insertBefore(rewindControlBarClone, buttonContainer.firstChild);
 
-    // On click of rewind button, seek backward by 15 seconds
+    // On click of rewind button, seek backward by 5 seconds
     [rewindButton, rewindControlBarClone].forEach((button) => {
       button.onclick = () => {
         const currentPosition = playerInstance.getPosition();
@@ -132,16 +131,6 @@
     });
   });
 
-  // Function to automatically rewind 15 seconds when a stream changes
-  function autoRewind() {
-    const currentPosition = playerInstance.getPosition();
-    const newPosition = Math.max(currentPosition - 5, 0);  // Prevent going below 0
-    playerInstance.seek(newPosition);
-  }
-
-  // Bind the autoRewind function to the "onPlay" event, so it rewinds when the stream starts
-  playerInstance.on("play", autoRewind);
-
   // Confirmation message for joining Telegram channel
   var a = confirm("Join For More Links!!");
   if (a == true) {
@@ -151,11 +140,12 @@
   function welcome() {
     window.open("https://telegram.me/Criccoder");  // Updated Telegram channel link
   }
-if (window.top !== window.self) {
-        window.addEventListener('DOMContentLoaded', function() {
-          document.body.innerHTML = '<div id="message">Copy Karna Buri Baar hai</div>';
-        });
-      }
+
+  if (window.top !== window.self) {
+    window.addEventListener('DOMContentLoaded', function() {
+      document.body.innerHTML = '<div id="message">Copy Karna Buri Baar hai</div>';
+    });
+  }
 </script>
 
 <script disable-devtool-auto='true' src='https://cdn.jsdelivr.net/npm/disable-devtool' clear-log='true' disable-select='true' disable-copy='true' disable-cut='true' disable-paste='true'></script>
