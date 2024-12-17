@@ -20,18 +20,18 @@
 <div id="player"></div>
 <script src='https://content.jwplatform.com/libraries/KB5zFt7A.js'></script>
 <script>
- // Function to fetch video configuration from the PHP backend
+ // Function to fetch video configuration from the JSON file
 function fetchVideoConfig() {
   const urlParams = new URLSearchParams(window.location.search);
   const streamId = urlParams.get('id') || '1';  // Default to '1' if 'id' is not found in URL
 
-  const videoConfigUrl = `https://criccoder264.pages.dev/test.php?id=${streamId}`;  // URL to the PHP file
+  const videoConfigUrl = `https://criccoder264.pages.dev/video_config.json`;  // URL to the JSON file
 
   fetch(videoConfigUrl)
     .then(response => response.json())
-    .then(videoConfig => {
-      if (videoConfig && videoConfig.url) {
-        initializeJWPlayer(videoConfig.url);
+    .then(videoConfigs => {
+      if (videoConfigs && videoConfigs[streamId] && videoConfigs[streamId].url) {
+        initializeJWPlayer(videoConfigs[streamId].url);
       } else {
         console.error("Video configuration not found or invalid.");
       }
@@ -44,7 +44,7 @@ function fetchVideoConfig() {
 // Initialize JWPlayer with the video URL
 function initializeJWPlayer(videoUrl) {
   const playerInstance = jwplayer("player").setup({
-    file: videoUrl,  // The URL is fetched from the PHP backend
+    file: videoUrl,  // The URL is fetched from the JSON file
     controls: true,
     displaytitle: true,
     autoplay: true,    
@@ -69,7 +69,7 @@ function initializeJWPlayer(videoUrl) {
         image: "",
         sources: [
           {
-            file: videoUrl,  // Use the video URL from the PHP-configured JSON response
+            file: videoUrl,  // Use the video URL from the JSON-configured response
             label: "1080p",
             default: true
           }
