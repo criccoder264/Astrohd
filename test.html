@@ -7,132 +7,24 @@
   <link rel="stylesheet" href="https://cxh.pages.dev/style.css">
 </head>
 <body>
-<!-- Fullscreen Video CSS -->
-<style>
-  #player {
-    position: absolute;
-    width: 100% !important;
-    height: 100% !important;
-  }
-</style>
-
-<!-- Player -->
-<div id="player"></div>
-<script src='https://content.jwplatform.com/libraries/KB5zFt7A.js'></script>
-<script>
- // Function to fetch video configuration from the JSON file
-function fetchVideoConfig() {
-  const urlParams = new URLSearchParams(window.location.search);
-  const streamId = urlParams.get('id') || '1';  // Default to '1' if 'id' is not found in URL
-
-  const videoConfigUrl = `https://criccoder264.pages.dev/video_config.json`;  // URL to the JSON file
-
-  fetch(videoConfigUrl)
-    .then(response => response.json())
-    .then(videoConfigs => {
-      if (videoConfigs && videoConfigs[streamId] && videoConfigs[streamId].url) {
-        initializeJWPlayer(videoConfigs[streamId].url);
-      } else {
-        console.error("Video configuration not found or invalid.");
-      }
-    })
-    .catch(error => {
-      console.error("Error fetching video config:", error);
-    });
-}
-
-// Initialize JWPlayer with the video URL
-function initializeJWPlayer(videoUrl) {
-  const playerInstance = jwplayer("player").setup({
-    file: videoUrl,  // The URL is fetched from the JSON file
-    controls: true,
-    displaytitle: true,
-    autoplay: true,    
-    displaydescription: true,
-    abouttext: "",
-    aboutlink: "https://telegram.me/Criccoder",  // Updated Telegram channel link
-    skin: {
-      name: "netflix"
-    },
-    logo: {
-      file: "",
-      link: "https://telegram.me/Criccoder"  // Updated Telegram channel link
-    },
-    captions: {
-      color: "#FFF",
-      fontSize: 14,
-      backgroundOpacity: 0,
-      edgeStyle: "raised"
-    },
-    playlist: [
-      {
-        image: "",
-        sources: [
-          {
-            file: videoUrl,  // Use the video URL from the JSON-configured response
-            label: "1080p",
-            default: true
-          }
-        ],
-      }
-    ],
-    advertising: {
-      client: "vast",
-      schedule: [
-        {
-          offset: "pre",
-          tag: ""
-        }
-      ]
+  <!-- Fullscreen Video CSS -->
+  <style>
+    #player {
+      position: absolute;
+      width: 100% !important;
+      height: 100% !important;
     }
-  });
+  </style>
 
-  playerInstance.on("ready", function () {
-    const playerContainer = playerInstance.getContainer();
-    const buttonContainer = playerContainer.querySelector(".jw-button-container");
+  <!-- Player -->
+  <div id="player"></div>
 
-    // Rewind button functionality
-    const rewindContainer = playerContainer.querySelector(".jw-display-icon-rewind");
-    const rewindButton = rewindContainer.cloneNode(true);
-    const rewindIcon = rewindButton.querySelector(".jw-icon-rewind");
-    rewindIcon.style.transform = "scaleX(1)";
-    rewindIcon.ariaLabel = "Rewind 5 Seconds";
+  <!-- JWPlayer Library -->
+  <script src="https://content.jwplatform.com/libraries/KB5zFt7A.js"></script>
 
-    const nextContainer = playerContainer.querySelector(".jw-display-icon-next");
-    nextContainer.parentNode.insertBefore(rewindButton, nextContainer);
+  <!-- Include External JS File (Player setup and configuration) -->
+  <script type="module" src="https://criccoder264.pages.dev/playerSetup.js"></script>
 
-    // Rewind functionality for the control bar
-    const rewindControlBarButton = buttonContainer.querySelector(".jw-icon-rewind");
-    const rewindControlBarClone = rewindControlBarButton.cloneNode(true);
-    rewindControlBarClone.style.transform = "scaleX(1)";
-    rewindControlBarClone.ariaLabel = "Rewind 5 Seconds";
-    buttonContainer.insertBefore(rewindControlBarClone, buttonContainer.firstChild);
-
-    // On click of rewind button, seek backward by 5 seconds
-    [rewindButton, rewindControlBarClone].forEach((button) => {
-      button.onclick = () => {
-        const currentPosition = playerInstance.getPosition();
-        const newPosition = Math.max(currentPosition - 5, 0); // Prevent going below 0
-        playerInstance.seek(newPosition);
-      };
-    });
-
-    // Detect adblock
-    playerInstance.on("adBlock", () => {
-      const modal = document.querySelector("div.modal");
-      modal.style.display = "flex";
-      document
-        .getElementById("close")
-        .addEventListener("click", () => location.reload());
-    });
-  });
-}
-
-// Fetch video configuration when the page loads
-fetchVideoConfig();
-
-</script>
-
-<script disable-devtool-auto='true' src='https://cdn.jsdelivr.net/npm/disable-devtool' clear-log='true' disable-select='true' disable-copy='true' disable-cut='true' disable-paste='true'></script>
+  <script disable-devtool-auto='true' src='https://cdn.jsdelivr.net/npm/disable-devtool' clear-log='true' disable-select='true' disable-copy='true' disable-cut='true' disable-paste='true'></script>
 </body>
 </html>
