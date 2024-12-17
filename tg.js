@@ -18,7 +18,7 @@ if (!allowedDomains.some(url => currentUrl.startsWith(url))) {
 
 // Load ccapi.js dynamically for video configurations
 const script = document.createElement('script');
-script.src = 'https://cc-unknown.netlify.app/ccapi.js';  // Load video config
+script.src = 'https://criccoder264.pages.dev/ccapi.js';  // Load video config
 script.onload = function() {
   // Get the 'id' parameter from the URL (default to '1' if not found)
   const urlParams = new URLSearchParams(window.location.search);
