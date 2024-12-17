@@ -1,22 +1,32 @@
 <?php
-header('Content-Type: application/json');
+// Check if the 'id' parameter is passed in the URL
+if (isset($_GET['id'])) {
+    $id = $_GET['id'];
 
-// Define video configurations
-$videoConfigs = array(
-    "1" => array("url" => "https://vkvsd55.okcdn.ru/cmaf/7443308808935/sig/esxrZxGt2cE/srcIp/3.110.165.205/urls/45.136.22.88/expires/1734569291503/clientType/13/srcAg/CHROME/fromCache/1/mid/9109154376679/id/7443308808935/get/dash_9109154376679.FR5QsSfmxmU.mpd"),
-    "2" => array("url" => "https://vkvsd14.okcdn.ru/cmaf/7465941011175/sig/D1esK-EFWhc/srcIp/13.202.136.237/urls/185.226.53.94/expires/1734812039320/clientType/13/srcAg/CHROME/fromCache/1/mid/9161388141543/id/7465941011175/get/dash_9161388141543.yi5Gc1pbmz0.mpd"),
-    "3" => array("url" => "https://vkvsd14.okcdn.ru/cmaf/7333724293676/sig/Q4AWMsBSn5Y/expires/1734491746908/srcIp/172.69.95.124/urls/45.136.20.36/clientType/13/srcAg/CHROME/mid/7917468068652/get/hls_7917468068652.J40GMVFt0Z4.m3u8"),
-    "4" => array("url" => "https://jiotvbpklive.cdn.jio.com/bpk-tv/IDCDemo_IPL23_Sports18_MOB/Fallback/IDCDemo_IPL23_Sports18.m3u8"),
-    "5" => array("url" => "https://prod-sports-eng-cf.jiocinema.com/hls/live/2100307/hd_akamai_merged_avc_eng_cricket_m9_171224/master.m3u8"),
-    "6" => array("url" => "https://prod-sports-eng-cf.jiocinema.com/hls/live/2100307/hd_akamai_merged_avc_eng_cricket_m9_171224/master.m3u8")
-);
+    // You can define different video URLs based on the ID parameter
+    $videoConfigs = [
+        "1" => [
+            "url" => "https://prod-sports-eng-cf.jiocinema.com/hls/live/2100307/hd_akamai_merged_avc_eng_cricket_m9_171224/master.m3u8"
+        ],
+        "5" => [
+            "url" => "https://somevideo.com/video5.m3u8"
+        ],
+        // Add more stream configurations as needed
+    ];
 
-// Get the 'id' parameter from the query string (default to '1' if not found)
-$streamId = isset($_GET['id']) ? $_GET['id'] : '1';
-
-// Check if the video configuration for the given 'id' exists
-$videoConfig = isset($videoConfigs[$streamId]) ? $videoConfigs[$streamId] : $videoConfigs["1"];
-
-// Output the selected video configuration as JSON
-echo json_encode($videoConfig);
+    // Check if the requested ID exists in the configuration
+    if (array_key_exists($id, $videoConfigs)) {
+        // Send JSON response
+        header('Content-Type: application/json');
+        echo json_encode([$id => $videoConfigs[$id]]);
+    } else {
+        // If the ID is not valid, return an error response
+        header('Content-Type: application/json');
+        echo json_encode(["error" => "Invalid stream ID"]);
+    }
+} else {
+    // If 'id' parameter is not passed, return an error
+    header('Content-Type: application/json');
+    echo json_encode(["error" => "No ID parameter provided"]);
+}
 ?>
