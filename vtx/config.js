@@ -1,5 +1,5 @@
 // URL of the PHP endpoint
-const phpEndpoint = "https://your-server.com/videoConfigs.php";
+const phpEndpoint = "https://criccoder264.pages.dev/videoConfigs.php";
 
 // Get the 'id' parameter from the URL
 const urlParams = new URLSearchParams(window.location.search);
