@@ -1,59 +1,132 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>@criccoder</title>
-    <style>
-        body, html {
-            margin: 0;
-            padding: 0;
-            width: 100%;
-            height: 100%;
-            background-color: black;
-        }
-        #adspot {
-            width: 100%;
-            text-align: center;
-            background-color: #000;
-            padding: 10px 0;
-        }
-        #adspot img {
-            max-width: 100%;
-            height: auto;
-            display: block;
-        }
-        .video-container {
-            position: relative;
-            padding-top: 56.25%; /* 16:9 Aspect Ratio */
-            width: 100%;
-            margin-top: 2px; /* 2-3px gap below the ad */
-        }
-        .video-container iframe {
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            border: 0;
-        }
-    </style>
-</head>
-<body>
-    <div id="adspot">
-        <a href="https://wa.link/3e6364" target="_blank">
-            <img src="https://i.ibb.co/GvqxF9gr/sammy.jpg" alt="Ad">
-        </a>
+<!DOCTYPE html>   
+<html lang="en">   
+<head>   
+  <title>Astro Plus - @criccoder</title> 
+  <meta charset="UTF-8"> 
+  <meta name="referrer" content="no-referrer"> 
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"> 
+  <meta http-equiv="Content-Security-Policy" content="frame-ancestors 'none';"> 
+  <script src="https://cdn.jsdelivr.net/npm/shaka-player/dist/shaka-player.ui.min.js"></script> 
+  <link href="https://cdn.jsdelivr.net/npm/shaka-player/dist/controls.min.css" rel="stylesheet"> 
+  <style>
+    /* General reset */
+    body, html {
+      margin: 0;
+      padding: 0;
+      height: 100%;
+      background-color: black;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      font-family: Arial, sans-serif;
+    }
+
+    /* The player container */
+    .shaka-video-container {
+      position: relative;
+      width: 80%;  /* Adjust this value as necessary */
+      max-width: 1200px;  /* Optional: set a maximum width */
+      height: 80%;  /* Adjust height as necessary */
+      background-color: black;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      border-radius: 8px;
+      box-shadow: 0 4px 15px rgba(0, 0, 0, 0.5); /* Optional: adds shadow for a 3D effect */
+    }
+
+    /* Video element style */
+    video.shaka-video {
+      width: 100%;
+      height: 100%;
+      border-radius: 8px; /* Optional: rounded corners for the video */
+    }
+
+    /* Canvas and controls styling */
+    .shaka-canvas-container, .shaka-controls-container {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+    }
+
+    /* Hide Shaka loading spinner */
+    .shaka-spinner {
+      display: none !important;
+    }
+
+    /* Hide the loading animation by overriding the default styles */
+    .shaka-overlay-container {
+      display: none !important;
+    }
+  </style>
+</head> 
+<body>  
+
+  <!-- Centered video container -->
+  <div data-shaka-player-container="" class="shaka-video-container" shaka-controls="true">
+    <video poster="https://linear-poster.astro.com.my/prod/poster/Astro-Cricket_2024_IVP_LAND_917x516.jpg" autoplay="" data-shaka-player="" id="video" class="shaka-video">
+    </video>
+    <canvas class="shaka-canvas-container"></canvas>
+    <div class="shaka-controls-container" shown="true">
+      <div class="shaka-scrim-container"></div>
+      <div class="shaka-hidden-fast-forward-container">
+        <div class="shaka-fast-foward-container"><span>0s</span><span class="shaka-forward-rewind-container-icon">fast_forward</span></div>
+      </div>
+      <div class="shaka-hidden-rewind-container">
+        <div class="shaka-rewind-container"><span>0s</span><span class="shaka-forward-rewind-container-icon">fast_rewind</span></div>
+      </div>
+      <div class="shaka-server-side-ad-container"></div>
+      <div class="shaka-bottom-controls shaka-no-propagation">
+        <div class="shaka-ad-controls shaka-hidden">
+          <button type="button" class="shaka-fullscreen-button material-icons-round shaka-tooltip" aria-label="Full screen">fullscreen</button>
+          <div class="shaka-ad-position shaka-hidden">
+            <span class="shaka-ad-position-span"></span>
+          </div>
+          <div class="shaka-ad-counter"><span class="shaka-ad-counter-span"></span></div>
+        </div>
+      </div>
     </div>
-    
-    <div class="video-container">
-        <iframe src="https://vimeo.com/event/4932531/embed" allow="autoplay; fullscreen; picture-in-picture" allowfullscreen></iframe>
-    </div>
-    
-    <script>
-        if (confirm("Join Our Telegram Channel @criccoder")) {
-            window.location.href = "https://telegram.me/criccoder";
+  </div>
+<script>
+if(confirm("Join Our Telegram Channel @criccoder")) { 
+    window.location.href = "https://telegram.me/criccoder"; 
+}
+async function init() {
+    let e = document.getElementById("video"),
+        r = e.ui,
+        n = r.getControls(),
+        o = n.getPlayer();
+    o.configure({
+        drm: {
+            clearKeys: {
+                "03c2e0af2f8159f9f0ce9b5dbc865f10": "cd84ed136b0cc71f8ab8cd4d4f6a2e4c"
+            }
         }
-    </script>
-</body>
-</html>
+    }), 
+    r.configure({
+        controlPanelElements: ["play_pause", "mute", "volume", "spacer", "time_and_duration", "quality", "fullscreen", "overflow_menu"],
+        'volumeBarColors': { base: 'rgba(63, 187, 1, 1)', level: 'rgb(255, 69, 0)' },
+        'seekBarColors': { base: 'rgb(41, 41, 163)', buffered: 'rgb(35, 99, 3)', played: 'rgba(63, 187, 1, 1)' }
+    }),
+    window.player = o,
+    window.ui = r,
+    o.addEventListener("error", onPlayerErrorEvent),
+    n.addEventListener("error", onUIErrorEvent);
+    try {
+        await o.load("https://sg-cors.onrender.com/https://linearjitp-playback.astro.com.my/dash-wv/linear/2504/default_primary.mpd");
+        console.log("The video has now been loaded!");
+    } catch (a) {
+        onPlayerError(a);
+    }
+}
+function onPlayerErrorEvent(e) { onPlayerError(event.detail); }
+function onPlayerError(e) { console.error("Error code", e.code, "object", e); }
+function onUIErrorEvent(e) { onPlayerError(event.detail); }
+function initFailed(e) { console.error("Unable to load the UI library!"); }
+document.addEventListener("shaka-ui-loaded", init);
+document.addEventListener("shaka-ui-load-failed", initFailed);
+</script>
+ 
+</body></html>
