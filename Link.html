@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Stream Links</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            line-height: 1.6;
+            padding: 20px;
+        }
+        .bold-underline {
+            font-weight: bold;
+            text-decoration: underline;
+        }
+        a {
+            color: #007bff;
+            text-decoration: none;
+        }
+        a:hover {
+            text-decoration: underline;
+        }
+        .share-btn {
+            background-color: #007bff;
+            color: white;
+            border: none;
+            padding: 12px 20px;
+            font-size: 16px;
+            border-radius: 5px;
+            cursor: pointer;
+            margin-top: 20px;
+        }
+        .share-btn:hover {
+            background-color: #0056b3;
+        }
+    </style>
+</head>
+<body>
+    <h1 class="bold-underline">I*L 2025 - Live</h1>
+
+    <p><span class="bold-underline">H!ndi - FHD</span><br>
+       <a href="https://criccoder264.pages.dev/H1" target="_blank">https://criccoder264.pages.dev/H1</a>
+    </p>
+
+    <p><span class="bold-underline">Engl!sh - FHD</span><br>
+       <a href="https://criccoder264.pages.dev/E" target="_blank">https://criccoder264.pages.dev/E</a>
+    </p>
+
+    <p><span class="bold-underline">Whillow - FHD</span><br>
+       <a href="https://criccoder264.pages.dev/Willow3" target="_blank">https://criccoder264.pages.dev/Willow3</a>
+    </p>
+
+    <ul>
+        <li class="bold-underline">Lag Free</li>
+        <li class="bold-underline">All Quality</li>
+        <li class="bold-underline">Use In Chrome</li>
+    </ul>
+
+    <button class="share-btn" onclick="shareLinks()">Share Links</button>
+
+    <script>
+        function shareLinks() {
+            const shareData = {
+                title: 'I*L 2025 - Live',
+                text: `I*L 2025 - Live
+
+H!ndi - FHD
+https://criccoder264.pages.dev/H1
+
+Engl!sh - FHD
+https://criccoder264.pages.dev/E
+
+Whillow - FHD
+https://criccoder264.pages.dev/Willow3
+
+• Lag Free
+• All Quality
+• Use In Chrome`,
+            };
+
+            if (navigator.share) {
+                navigator.share(shareData)
+                    .then(() => console.log('Shared successfully'))
+                    .catch((err) => console.error('Error sharing:', err));
+            } else {
+                alert('Sharing is not supported on this browser.');
+            }
+        }
+       // Confirmation message for joining Telegram channel
+  var a = confirm("Join For More Links!!");
+  if (a == true) {
+    window.location.href = "https://telegram.me/Criccoder";  // Updated Telegram channel link
+  }
+
+  function welcome() {
+    window.open("https://telegram.me/Criccoder");  // Updated Telegram channel link
+  }
+
+ disable-devtool-auto='true' src='https://cdn.jsdelivr.net/npm/disable-devtool' clear-log='true' disable-select='true' disable-copy='true' disable-cut='true' disable-paste='true'></script>
+</body>
+</html>
