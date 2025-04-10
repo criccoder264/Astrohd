@@ -2,90 +2,123 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>TG - @criccoder</title>
-  <script src="https://content.jwplatform.com/libraries/KB5zFt7A.js"></script>
-  <style>
-    #poster {
-      width: 100%;
-      max-width: 640px; /* Adjust width to match player size */
-      margin: 0 auto;
-      display: block;
-    }
-    #player-container {
-      text-align: center;
-    }
-  </style>
+  <title>@criccoder</title>
+  <link rel="stylesheet" href="https://cxh.pages.dev/style.css">
 </head>
 <body>
-  <div id="video"></div>
+<!-- partial:index.partial.html -->
+<!-- Fullscreen Video CSS -->
+<style>
+  #player {
+    position: absolute;
+    width: 100% !important;
+    height: 100% !important;
+  }
+</style>
 
-  <!-- Poster Image with Link -->
-  <a href="https://wa.link/j2bd23" target="_blank">
-    <img id="poster" src="https://criccoder264.pages.dev/2.png" alt="Poster Image">
-  </a>
+<!-- Player -->
+<div id="player"></div>
+<script src='https://content.jwplatform.com/libraries/KB5zFt7A.js'></script>
+<script>
+  const playerInstance = jwplayer("player").setup({
+    controls: true,
+    displaytitle: true,
+    autoplay: true,    
+    displaydescription: true,
+    abouttext: "",
+    aboutlink: "https://telegram.me/Criccoder",  // Updated Telegram channel link
 
-  <!-- Player -->
-  <div id="player-container">
-    <div id="player"></div>
-  </div>
+    skin: {
+      name: "netflix"
+    },
 
-  <script>
-    const playerInstance = jwplayer("player").setup({
-      controls: true,
-      displaytitle: true,
-      autoplay: true,    
-      displaydescription: true,
-      abouttext: "",
-      aboutlink: "https://telegram.me/Criccoder",
-      skin: {
-        name: "netflix"
-      },
-      logo: {
-        file: "",
-        link: "https://telegram.me/Criccoder"
-      },
-      captions: {
-        color: "#FFF",
-        fontSize: 14,
-        backgroundOpacity: 0,
-        edgeStyle: "raised"
-      },
-      playlist: [
-        {
-          image: "",
-          sources: [
-            {
-              file: "https://002.fclplayer.online/live/csstream1/chunklist.m3u8?vidictid=201764302351&id=1002",
-              label: "1080p",
-              default: true
-            }
-          ],
-        }
-      ],
-      advertising: {
-        client: "vast",
-        schedule: [
+    logo: {
+      file: "",
+      link: "https://telegram.me/Criccoder"  // Updated Telegram channel link
+    },
+
+    captions: {
+      color: "#FFF",
+      fontSize: 14,
+      backgroundOpacity: 0,
+      edgeStyle: "raised"
+    },
+
+    playlist: [
+      {
+        image: "",
+        sources: [
           {
-            offset: "pre",
-            tag: ""
+            file: "https://prod-sports-eng-fa.jiocinema.com/hls/live/2117030/inallow-ipl-2025/eng/1540040246/15mindvrm0153748b1625e24a9ebc935a7faca3fe7810april2025/master_apm.m3u8",
+            label: "1080p",
+            default: true
           }
-        ]
+        ],
       }
+    ],
+    advertising: {
+      client: "vast",
+      schedule: [
+        {
+          offset: "pre",
+          tag: ""
+        }
+      ]
+    }
+  });
+
+  playerInstance.on("ready", function () {
+    const playerContainer = playerInstance.getContainer();
+    const buttonContainer = playerContainer.querySelector(".jw-button-container");
+
+    // Rewind button functionality
+    const rewindContainer = playerContainer.querySelector(".jw-display-icon-rewind");
+    const rewindButton = rewindContainer.cloneNode(true);
+    const rewindIcon = rewindButton.querySelector(".jw-icon-rewind");
+    rewindIcon.style.transform = "scaleX(1)";
+    rewindIcon.ariaLabel = "Rewind 10 Seconds";
+
+    const nextContainer = playerContainer.querySelector(".jw-display-icon-next");
+    nextContainer.parentNode.insertBefore(rewindButton, nextContainer);
+
+    // Rewind functionality for the control bar
+    const rewindControlBarButton = buttonContainer.querySelector(".jw-icon-rewind");
+    const rewindControlBarClone = rewindControlBarButton.cloneNode(true);
+    rewindControlBarClone.style.transform = "scaleX(1)";
+    rewindControlBarClone.ariaLabel = "Rewind 10 Seconds";
+    buttonContainer.insertBefore(rewindControlBarClone, buttonContainer.firstChild);
+
+    // On click of rewind button, seek backward by 10 seconds
+    [rewindButton, rewindControlBarClone].forEach((button) => {
+      button.onclick = () => {
+        const currentPosition = playerInstance.getPosition();
+        const newPosition = Math.max(currentPosition - 10, 0); // Prevent going below 0
+        playerInstance.seek(newPosition);
+      };
     });
 
-    // Confirmation popup for joining Telegram channel
-    var a = confirm("Join For More Links!!");
-    if (a == true) {
-      window.location.href = "https://telegram.me/Criccoder";
-    }
-  </script>
+    // Detect adblock
+    playerInstance.on("adBlock", () => {
+      const modal = document.querySelector("div.modal");
+      modal.style.display = "flex";
+      document
+        .getElementById("close")
+        .addEventListener("click", () => location.reload());
+    });
+  });
 
-  <div style="background-color: #0074d9; text-align: center; padding: 10px;">
-    <a href="https://telegram.me/criccoder" target="_blank">
-      <button id="joinTelegramButton" style="background-color: #fff; color: #0074d9; border: 2px solid #0074d9; padding: 5px 10px;">Join Telegram</button>
-    </a>
-  </div>
+  // Confirmation message for joining Telegram channel
+  var a = confirm("Join For More Links!!");
+  if (a == true) {
+    window.location.href = "https://telegram.me/Criccoder";  // Updated Telegram channel link
+  }
+
+  function welcome() {
+    window.open("https://telegram.me/Criccoder");  // Updated Telegram channel link
+  }
+</script>
+
+<script disable-devtool-auto='true' src='https://cdn.jsdelivr.net/npm/disable-devtool' clear-log='true' disable-select='true' disable-copy='true' disable-cut='true' disable-paste='true'></script>
 </body>
 </html>
