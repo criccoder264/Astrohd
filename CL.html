@@ -5,22 +5,28 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>@criccoder</title>
   <link rel="stylesheet" href="https://cxh.pages.dev/style.css">
+  <script src="https://content.jwplatform.com/libraries/KB5zFt7A.js"></script>
+  <script>jwplayer.key = "MOYE-MOYE";</script>
+  <style>
+    /* Fullscreen Video CSS */
+    #player {
+      position: absolute;
+      width: 100% !important;
+      height: 100% !important;
+    }
+    html, body {
+      margin: 0;
+      padding: 0;
+      background-color: black;
+      height: 100%;
+    }
+  </style>
 </head>
 <body>
-<!-- Fullscreen Video CSS -->
-<style>
-  #player {
-    position: absolute;
-    width: 100% !important;
-    height: 100% !important;
-  }
-</style>
+  <!-- Player -->
+  <div id="player"></div>
 
-<!-- Player -->
-<div id="player"></div>
-<script src='https://content.jwplatform.com/libraries/KB5zFt7A.js'></script>
   <script>
-<script>
     // Map of ID to m3u8 links
     const streams = {
         "H1": "https://v18tataplaysyndication.akamaized.net/bpk-tv/StarSports_2_Hin_HD_voot_MOB/output03/index.m3u8?hdnea=exp=1744546500~acl=/*~hmac=1359ccf3c8bb35aef3470db24fd9923da85aceb17de1c05de58496efd5ac71ad",
@@ -53,6 +59,6 @@
         // Redirect if stream ID is invalid
         window.location.href = "https://telegram.me/criccoder";
     }
-</script>
+  </script>
 </body>
 </html>
