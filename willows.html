@@ -5,14 +5,14 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>@criccoder</title>
 
-  <!-- Shaka Player -->
+  <!-- Shaka Player UI -->
   <script src="https://cdnjs.cloudflare.com/ajax/libs/shaka-player/4.7.1/shaka-player.ui.min.js" crossorigin="anonymous"></script>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/shaka-player/4.7.1/controls.min.css" crossorigin="anonymous">
 
-  <!-- Font Awesome (if needed) -->
+  <!-- Font Awesome -->
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css" crossorigin="anonymous">
 
-  <!-- Optional custom stylesheet -->
+  <!-- Optional Custom Styles -->
   <link rel="stylesheet" href="tg.css">
 
   <style>
@@ -49,7 +49,6 @@
 </head>
 
 <body>
-  <!-- Video container -->
   <div class="video-container">
     <div data-shaka-player-container style="width: 100%; height: 100%;">
       <video autoplay muted data-shaka-player id="video" style="width:100%; height:100%;"></video>
@@ -57,7 +56,7 @@
   </div>
 
   <script>
-    const manifestUri = "https://abgqjfuaaaaaaaamjg47xbr24jnk7.5585d58ad0ad47ec9147be5b551e6277.emt.cf.ww.aiv-cdn.net/pdx-nitro/live/clients/dash/enc/g7lle69upt/out/v1/e67fdb7dbb6c421d9aa016def25b6ea8/cenc.mpd";
+    const manifestUri = "https://otte.live.fly.ww.aiv-cdn.net/pdx-nitro/live/clients/dash/enc/4kawe29aco/out/v1/9f2e8dfbab5a4d17af2b5a8203d65c55/cenc.mpd";
 
     async function init() {
       const video = document.getElementById('video');
@@ -70,8 +69,8 @@
 
       player.configure({
         drm: {
-          "clearKeys": {
-            "41cc604b8c232e69e850cc76fc7c5da1": "4c6593f619b10e9c00b446ffcb1e53af"
+          clearKeys: {
+            "185639528ebdc15a01bd23b7620110b7": "28b94440143e78cf2190c409cf822c44"
           }
         }
       });
