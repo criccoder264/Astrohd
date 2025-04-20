@@ -1,111 +1,115 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>@criccoder</title>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/shaka-player/4.7.1/shaka-player.ui.min.js" crossorigin="anonymous"></script>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/shaka-player/4.7.1/controls.min.css" crossorigin="anonymous">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css" crossorigin="anonymous">
-    <link rel="stylesheet" href="tg.css">
-</head>
-    <style>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>@criccoder</title>
+
+  <!-- Shaka Player -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/shaka-player/4.7.1/shaka-player.ui.min.js" crossorigin="anonymous"></script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/shaka-player/4.7.1/controls.min.css" crossorigin="anonymous">
+
+  <!-- Font Awesome (if needed) -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css" crossorigin="anonymous">
+
+  <!-- Optional custom stylesheet -->
+  <link rel="stylesheet" href="tg.css">
+
+  <style>
     body {
-        background-color: #000;
-        margin: 0;
+      background-color: #000;
+      margin: 0;
     }
 
-    /* Container for video and logo */
     .video-container {
-        position: relative;
-        width: 100%;
-        height: 100%;
-        background-color: black;
+      position: relative;
+      width: 100%;
+      height: 100vh;
+      background-color: black;
     }
 
-    /* Style for the logo */
     .logo {
-        position: absolute;
-        top: 10px; /* Adjust vertical position */
-        left: 10px; /* Adjust horizontal position */
-        z-index: 1; /* Ensure the logo appears above the video */
-        max-width: 120px; /* Set maximum width for the logo */
-        max-height: 120px; /* Set maximum height for the logo */
-        pointer-events: none; /* Prevent interference with video controls */
+      position: absolute;
+      top: 10px;
+      left: 10px;
+      z-index: 1;
+      max-width: 120px;
+      max-height: 120px;
+      pointer-events: none;
     }
 
     .shaka-spinner-container {
-        display: none;
+      display: none;
     }
 
     .uc {
-        pointer-events: none;
+      pointer-events: none;
     }
-</style>
+  </style>
 </head>
 
 <body>
-        <!-- Video player -->
-        <div data-shaka-player-container style="position: absolute; top: 0; left: 0; width: 100%; height: 100%;">
-            <video autoplay muted data-shaka-player id="video" poster="" style="width:100%; height:100%;"></video>
-        </div>
+  <!-- Video container -->
+  <div class="video-container">
+    <div data-shaka-player-container style="width: 100%; height: 100%;">
+      <video autoplay muted data-shaka-player id="video" style="width:100%; height:100%;"></video>
     </div>
+  </div>
 
+  <script>
+    const manifestUri = "https://abgqjfuaaaaaaaamjg47xbr24jnk7.5585d58ad0ad47ec9147be5b551e6277.emt.cf.ww.aiv-cdn.net/pdx-nitro/live/clients/dash/enc/g7lle69upt/out/v1/e67fdb7dbb6c421d9aa016def25b6ea8/cenc.mpd";
 
-<script>
-const manifestUri = "https://abgqjfuaaaaaaaamjg47xbr24jnk7.5585d58ad0ad47ec9147be5b551e6277.emt.cf.ww.aiv-cdn.net/pdx-nitro/live/clients/dash/enc/g7lle69upt/out/v1/e67fdb7dbb6c421d9aa016def25b6ea8/cenc.mpd";
+    async function init() {
+      const video = document.getElementById('video');
+      const ui = video['ui'];
+      const controls = ui.getControls();
+      const player = controls.getPlayer();
 
-async function init() {
-  const video = document.getElementById('video');
-  const ui = video['ui'];
-  const controls = ui.getControls();
-  const player = controls.getPlayer();
+      window.player = player;
+      window.ui = ui;
 
-  window.player = player;
-  window.ui = ui;
+      player.configure({
+        drm: {
+          "clearKeys": {
+            "41cc604b8c232e69e850cc76fc7c5da1": "4c6593f619b10e9c00b446ffcb1e53af"
+          }
+        }
+      });
 
-  player.configure({
-    drm: {
-      "clearKeys": {
-        "41cc604b8c232e69e850cc76fc7c5da1": "4c6593f619b10e9c00b446ffcb1e53af"
+      player.addEventListener('error', onPlayerErrorEvent);
+      controls.addEventListener('error', onUIErrorEvent);
+
+      try {
+        await player.load(manifestUri);
+        console.log('The video has now been loaded!');
+      } catch (error) {
+        onPlayerError(error);
       }
     }
-  });
 
-  player.addEventListener('error', onPlayerErrorEvent);
-  controls.addEventListener('error', onUIErrorEvent);
+    function onPlayerErrorEvent(errorEvent) {
+      onPlayerError(errorEvent.detail);
+    }
 
-  try {
-    await player.load(manifestUri);
-    console.log('The video has now been loaded!');
-  } catch (error) {
-    onPlayerError(error);
-  }
-}
+    function onPlayerError(error) {
+      console.error('Error code', error.code, 'object', error);
+    }
 
-function onPlayerErrorEvent(errorEvent) {
-  onPlayerError(errorEvent.detail);
-}
+    function onUIErrorEvent(errorEvent) {
+      onPlayerError(errorEvent.detail);
+    }
 
-function onPlayerError(error) {
-  console.error('Error code', error.code, 'object', error);
-}
+    function initFailed(errorEvent) {
+      console.error('Unable to load the UI library!');
+    }
 
-function onUIErrorEvent(errorEvent) {
-  onPlayerError(errorEvent.detail);
-}
+    document.addEventListener('shaka-ui-loaded', init);
+    document.addEventListener('shaka-ui-load-failed', initFailed);
 
-function initFailed(errorEvent) {
-  console.error('Unable to load the UI library!');
-}
-
-document.addEventListener('shaka-ui-loaded', init);
-document.addEventListener('shaka-ui-load-failed', initFailed);
-
-var userConfirmed = confirm("Join For More Links!!");
-if (userConfirmed) {
-  window.location.href = "https://telegram.me/Criccoder";
-}
-
-</script></body>
+    var userConfirmed = confirm("Join For More Links!!");
+    if (userConfirmed) {
+      window.location.href = "https://telegram.me/Criccoder";
+    }
+  </script>
+</body>
 </html>
