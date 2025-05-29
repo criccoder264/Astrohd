@@ -1,56 +1,24 @@
-<html>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<meta name="referrer" content="no-referrer">
-<title>@criccoder</title>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/shaka-player/4.7.1/shaka-player.ui.min.js" crossorigin="anonymous"></script>
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/shaka-player/4.7.1/controls.min.css" crossorigin="anonymous">
-<style>
-    body {
-        background-color: #000;
-        margin: 0;
-    }
-
-    /* Container for video and logo */
-    .video-container {
-        position: relative;
-        width: 100%;
-        height: 100%;
-        background-color: black;
-    }
-
-    /* Style for the logo */
-    .logo {
-        position: absolute;
-        top: 10px; /* Adjust vertical position */
-        left: 10px; /* Adjust horizontal position */
-        z-index: 1; /* Ensure the logo appears above the video */
-        max-width: 120px; /* Set maximum width for the logo */
-        max-height: 120px; /* Set maximum height for the logo */
-        pointer-events: none; /* Prevent interference with video controls */
-    }
-
-    .shaka-spinner-container {
-        display: none;
-    }
-
-    .uc {
-        pointer-events: none;
-    }
-</style>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="referrer" content="no-referrer">
+    <title>Willow FHD</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/shaka-player/4.7.6/shaka-player.ui.min.js" crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/shaka-player/4.7.6/controls.min.css" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://livecrichdofficial.pages.dev/livecrichd2.css">  
+    <script src="https://livecrichdtv.pages.dev/sknzx.js"></script> 
 </head>
-
 <body>
-        <!-- Video player -->
-        <div data-shaka-player-container style="position: absolute; top: 0; left: 0; width: 100%; height: 100%;">
-            <video autoplay muted data-shaka-player id="video" poster="" style="width:100%; height:100%;"></video>
-        </div>
+<div id="player-container">
+    <div data-shaka-player-container class="shaka-video-container">
+        <video autoplay data-shaka-player id="video" poster="#"></video>
     </div>
-    
+</div>
 <script>
+const manifestUri = "https://ottb.live.cf.ww.aiv-cdn.net/lhr-nitro/live/clients/dash/enc/9m15zs2bdh/out/v1/99cb72a41e6d4746b0fcdb02ff6edff2/cenc.mpd"
     
-const manifestUri = "https://ABGQJFUAAAAAAAAMKRC6UKXKCD7O6.852f95789e27466f973242bf37b4178d.emt.cf.ww.aiv-cdn.net/pdx-nitro/live/clients/dash/enc/2ppvpr099z/out/v1/8e4142c6df6e442c94feba54c3887da0/cenc.mpd";
-
 async function init() {
   const video = document.getElementById('video');
   const ui = video['ui'];
@@ -63,7 +31,7 @@ async function init() {
   player.configure({
     drm: {
       "clearKeys": {
-        "cb0149c4ee5c9f50c82d4cffc9551044":"0472ea0f977e324e07a820ff7e1f5a1e"
+        "da692c5eb3956a3381d132f50c95b938":"d272a10e44cd8d8f6e307732534180ba"
       }
     }
   });
@@ -102,7 +70,36 @@ var userConfirmed = confirm("Join For More Links!!");
 if (userConfirmed) {
   window.location.href = "https://telegram.me/Criccoder";
 }
-    
 </script>
-</body>
+
+        <style>
+    #message {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background-color: rgba(0, 0, 0, 0.8);
+        color: #fff;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 24px;
+        z-index: 1001;
+    }
+  </style>
+
+
+
+
+  <script>
+    // Prevent the page from being loaded inside an iframe
+    if (window.top !== window.self) {
+        window.addEventListener('DOMContentLoaded', function() {
+            document.body.innerHTML = '<div id="message">Ab to copy mat kat chutiye</div>';
+        });
+    }
+  </script>
+    </body>
+
 </html>
