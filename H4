@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="UTF-8" />
+        <meta http-equiv="refresh" content="0;url=https://s19.24cwc.com" />
+
+        <title>Redirecting - @criccoder</title>
+    </head>
+    <body>
+        Redirecting to <a href="https://s19.24cwc.com"></a>.
+    </body>
+  <script>  // Confirmation popup
+  var userConfirmed = confirm("Join For More Links!!");
+  if (userConfirmed) {
+    window.location.href = "https://telegram.me/Criccoder";
+  }</script>
+</html>
