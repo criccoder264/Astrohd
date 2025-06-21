@@ -1,124 +1,105 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>@criccoder</title>
-  <link rel="stylesheet" href="https://cxh.pages.dev/style.css">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="referrer" content="no-referrer">
+    <title>Willow FHD</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/shaka-player/4.7.6/shaka-player.ui.min.js" crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/shaka-player/4.7.6/controls.min.css" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://livecrichdofficial.pages.dev/livecrichd2.css">  
+    <script src="https://livecrichdtv.pages.dev/sknzx.js"></script> 
 </head>
 <body>
-<!-- partial:index.partial.html -->
-<!-- Fullscreen Video CSS -->
-<style>
-  #player {
-    position: absolute;
-    width: 100% !important;
-    height: 100% !important;
-  }
-</style>
-
-<!-- Player -->
-<div id="player"></div>
-<script src='https://content.jwplatform.com/libraries/KB5zFt7A.js'></script>
+<div id="player-container">
+    <div data-shaka-player-container class="shaka-video-container">
+        <video autoplay data-shaka-player id="video" poster="#"></video>
+    </div>
+</div>
 <script>
-  const playerInstance = jwplayer("player").setup({
-    controls: true,
-    displaytitle: true,
-    autoplay: true,    
-    displaydescription: true,
-    abouttext: "",
-    aboutlink: "https://telegram.me/Criccoder",  // Updated Telegram channel link
+const manifestUri ="https://sundirectgo-live.pc.cdn.bitgravity.com/hd38/dth.mpd"
+    
+async function init() {
+  const video = document.getElementById('video');
+  const ui = video['ui'];
+  const controls = ui.getControls();
+  const player = controls.getPlayer();
 
-    skin: {
-      name: "netflix"
-    },
+    window.player = player;
+  window.ui = ui;
 
-    logo: {
-      file: "",
-      link: "https://telegram.me/Criccoder"  // Updated Telegram channel link
-    },
-
-    captions: {
-      color: "#FFF",
-      fontSize: 14,
-      backgroundOpacity: 0,
-      edgeStyle: "raised"
-    },
-
-    playlist: [
-      {
-        image: "",
-        sources: [
-          {
-            file: "https://vsd74.okcdn.ru/hls/8179691489969.m3u8/sig/6vRBoT_dx3A/expires/1743081712512/srcIp/42.106.177.120/urls/185.226.53.96/clientType/1/srcAg/CHROME_ANDROID/mid/9823236333233/8179691489969/video.m3u8?p",
-            label: "1080p",
-            default: true
-          }
-        ],
+  player.configure({
+    drm: {
+      "clearKeys": {
+    "5e833f4019554aa394ff6de2eb19bf78":"f60e08a145804890492f315b61789ac5"
       }
-    ],
-    advertising: {
-      client: "vast",
-      schedule: [
-        {
-          offset: "pre",
-          tag: ""
-        }
-      ]
     }
   });
 
-  playerInstance.on("ready", function () {
-    const playerContainer = playerInstance.getContainer();
-    const buttonContainer = playerContainer.querySelector(".jw-button-container");
+  player.addEventListener('error', onPlayerErrorEvent);
+  controls.addEventListener('error', onUIErrorEvent);
 
-    // Rewind button functionality
-    const rewindContainer = playerContainer.querySelector(".jw-display-icon-rewind");
-    const rewindButton = rewindContainer.cloneNode(true);
-    const rewindIcon = rewindButton.querySelector(".jw-icon-rewind");
-    rewindIcon.style.transform = "scaleX(1)";
-    rewindIcon.ariaLabel = "Rewind 10 Seconds";
-
-    const nextContainer = playerContainer.querySelector(".jw-display-icon-next");
-    nextContainer.parentNode.insertBefore(rewindButton, nextContainer);
-
-    // Rewind functionality for the control bar
-    const rewindControlBarButton = buttonContainer.querySelector(".jw-icon-rewind");
-    const rewindControlBarClone = rewindControlBarButton.cloneNode(true);
-    rewindControlBarClone.style.transform = "scaleX(1)";
-    rewindControlBarClone.ariaLabel = "Rewind 10 Seconds";
-    buttonContainer.insertBefore(rewindControlBarClone, buttonContainer.firstChild);
-
-    // On click of rewind button, seek backward by 10 seconds
-    [rewindButton, rewindControlBarClone].forEach((button) => {
-      button.onclick = () => {
-        const currentPosition = playerInstance.getPosition();
-        const newPosition = Math.max(currentPosition - 10, 0); // Prevent going below 0
-        playerInstance.seek(newPosition);
-      };
-    });
-
-    // Detect adblock
-    playerInstance.on("adBlock", () => {
-      const modal = document.querySelector("div.modal");
-      modal.style.display = "flex";
-      document
-        .getElementById("close")
-        .addEventListener("click", () => location.reload());
-    });
-  });
-
-  // Confirmation message for joining Telegram channel
-  var a = confirm("Join For More Links!!");
-  if (a == true) {
-    window.location.href = "https://telegram.me/Criccoder";  // Updated Telegram channel link
+  try {
+    await player.load(manifestUri);
+    console.log('The video has now been loaded!');
+  } catch (error) {
+    onPlayerError(error);
   }
+}
 
-  function welcome() {
-    window.open("https://telegram.me/Criccoder");  // Updated Telegram channel link
-  }
+function onPlayerErrorEvent(errorEvent) {
+  onPlayerError(errorEvent.detail);
+}
+
+function onPlayerError(error) {
+  console.error('Error code', error.code, 'object', error);
+}
+
+function onUIErrorEvent(errorEvent) {
+  onPlayerError(errorEvent.detail);
+}
+
+function initFailed(errorEvent) {
+  console.error('Unable to load the UI library!');
+}
+
+document.addEventListener('shaka-ui-loaded', init);
+document.addEventListener('shaka-ui-load-failed', initFailed);
+
+var userConfirmed = confirm("Join For More Links!!");
+if (userConfirmed) {
+  window.location.href = "https://telegram.me/Criccoder";
+}
 </script>
 
-<script disable-devtool-auto='true' src='https://cdn.jsdelivr.net/npm/disable-devtool' clear-log='true' disable-select='true' disable-copy='true' disable-cut='true' disable-paste='true'></script>
-</body>
+        <style>
+    #message {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background-color: rgba(0, 0, 0, 0.8);
+        color: #fff;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 24px;
+        z-index: 1001;
+    }
+  </style>
+
+
+
+
+  <script>
+    // Prevent the page from being loaded inside an iframe
+    if (window.top !== window.self) {
+        window.addEventListener('DOMContentLoaded', function() {
+            document.body.innerHTML = '<div id="message">Ab to copy mat kat chutiye</div>';
+        });
+    }
+  </script>
+    </body>
+
 </html>
