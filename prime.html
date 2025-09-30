@@ -1,122 +1,105 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta name="referrer" content="no-referrer">
-  <title>Willow FHD</title>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/shaka-player/4.7.6/shaka-player.ui.min.js" crossorigin="anonymous"></script>
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/shaka-player/4.7.6/controls.min.css" crossorigin="anonymous">
-  <link rel="stylesheet" href="https://livecrichdofficial.pages.dev/livecrichd2.css">  
-  <script src="https://livecrichdtv.pages.dev/sknzx.js"></script> 
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="referrer" content="no-referrer">
+    <title>Willow FHD</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/shaka-player/4.7.6/shaka-player.ui.min.js" crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/shaka-player/4.7.6/controls.min.css" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://livecrichdofficial.pages.dev/livecrichd2.css">  
+    <script src="https://livecrichdtv.pages.dev/sknzx.js"></script> 
 </head>
 <body>
 <div id="player-container">
-  <div data-shaka-player-container class="shaka-video-container">
-    <video autoplay data-shaka-player id="video" poster="#"></video>
-  </div>
+    <div data-shaka-player-container class="shaka-video-container">
+        <video autoplay data-shaka-player id="video" poster="#"></video>
+    </div>
 </div>
-
 <script>
-  // Get id from URL
-  const urlParams = new URLSearchParams(window.location.search);
-  const id = urlParams.get("id");
-
-  // Different MPDs + Keys
-  let manifestUri = "";
-  let clearKeys = {};
-
-  if (id === "1") {
-    console.log("Selected Hindi stream");
-    manifestUri = "https://aba3uy3aaaaaaaamfjv2jyrjdxcj4.otte.live.cf.ww.aiv-cdn.net/sin-nitro/live/clients/dash/enc/ebgsyorlcl/out/v1/ce95d81f287040d5a3fa6d4b145be849/cenc.mpd";
-    clearKeys = {
-      "d28475494eb39cef95e5175c028ea814": "8ac4fc085792b7bf8b7c38246f40d9c9"
-    };
-  } else if (id === "2") {
-    console.log("Selected English stream");
-    manifestUri = "https://abbbmftaaaaaaaamgdshloqn26zka.otte.live.cf.ww.aiv-cdn.net/sin-nitro/clients/dash/enc/jr0zvtazlv/out/v1/6bae9634f7594a738530656284177423/cenc.mpd";
-    clearKeys = {
-      "2ce2e7d0af813fd26c6fe0b59201ced5": "1416f69da90f62735a6521aae461dd74"
-    };
-  } else {
-    document.body.innerHTML = "<h2 style='color:red;text-align:center;'>Invalid ID. Use ?id=1 (Hindi) or ?id=2 (English)</h2>";
-  }
-
-  async function init() {
-    if (!manifestUri) return;
-
-    const video = document.getElementById('video');
-    const ui = video['ui'];
-    const controls = ui.getControls();
-    const player = controls.getPlayer();
+const manifestUri ="https://aba3uy3aaaaaaaamfjv2jyrjdxcj4.otte.live.cf.ww.aiv-cdn.net/sin-nitro/live/clients/dash/enc/ebgsyorlcl/out/v1/ce95d81f287040d5a3fa6d4b145be849/cenc.mpd"
+    
+async function init() {
+  const video = document.getElementById('video');
+  const ui = video['ui'];
+  const controls = ui.getControls();
+  const player = controls.getPlayer();
 
     window.player = player;
-    window.ui = ui;
+  window.ui = ui;
 
-    console.log("Configuring DRM with keys:", clearKeys);
-
-    player.configure({
-      drm: {
-        clearKeys: clearKeys
+  player.configure({
+    drm: {
+      "clearKeys": {
+    "d28475494eb39cef95e5175c028ea814":"8ac4fc085792b7bf8b7c38246f40d9c9"
       }
-    });
-
-    player.addEventListener('error', onPlayerErrorEvent);
-    controls.addEventListener('error', onUIErrorEvent);
-
-    try {
-      console.log("Loading manifest:", manifestUri);
-      await player.load(manifestUri);
-      console.log('✅ The video has now been loaded!');
-    } catch (error) {
-      onPlayerError(error);
     }
-  }
+  });
 
-  function onPlayerErrorEvent(errorEvent) {
-    onPlayerError(errorEvent.detail);
-  }
+  player.addEventListener('error', onPlayerErrorEvent);
+  controls.addEventListener('error', onUIErrorEvent);
 
-  function onPlayerError(error) {
-    console.error('❌ Error code', error.code, 'object', error);
+  try {
+    await player.load(manifestUri);
+    console.log('The video has now been loaded!');
+  } catch (error) {
+    onPlayerError(error);
   }
+}
 
-  function onUIErrorEvent(errorEvent) {
-    onPlayerError(errorEvent.detail);
-  }
+function onPlayerErrorEvent(errorEvent) {
+  onPlayerError(errorEvent.detail);
+}
 
-  function initFailed(errorEvent) {
-    console.error('❌ Unable to load the UI library!');
-  }
+function onPlayerError(error) {
+  console.error('Error code', error.code, 'object', error);
+}
 
-  document.addEventListener('shaka-ui-loaded', init);
-  document.addEventListener('shaka-ui-load-failed', initFailed);
+function onUIErrorEvent(errorEvent) {
+  onPlayerError(errorEvent.detail);
+}
+
+function initFailed(errorEvent) {
+  console.error('Unable to load the UI library!');
+}
+
+document.addEventListener('shaka-ui-loaded', init);
+document.addEventListener('shaka-ui-load-failed', initFailed);
+
+var userConfirmed = confirm("Join For More Links!!");
+if (userConfirmed) {
+  window.location.href = "https://telegram.me/criccoder";
+}
 </script>
 
-<style>
-  #message {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background-color: rgba(0, 0, 0, 0.8);
-    color: #fff;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-size: 24px;
-    z-index: 1001;
-  }
-</style>
+        <style>
+    #message {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background-color: rgba(0, 0, 0, 0.8);
+        color: #fff;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 24px;
+        z-index: 1001;
+    }
+  </style>
 
-<script>
-  // Prevent the page from being loaded inside an iframe
-  if (window.top !== window.self) {
-    window.addEventListener('DOMContentLoaded', function() {
-      document.body.innerHTML = '<div id="message">Ab to copy mat kar chutiye</div>';
-    });
-  }
-</script>
-</body>
+
+
+
+  <script>
+    // Prevent the page from being loaded inside an iframe
+    if (window.top !== window.self) {
+        window.addEventListener('DOMContentLoaded', function() {
+            document.body.innerHTML = '<div id="message">Ab to copy mat kat chutiye</div>';
+        });
+    }
+  </script>
+    </body>
+
 </html>
