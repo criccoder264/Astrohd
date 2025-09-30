@@ -27,13 +27,13 @@
   let clearKeys = {};
 
   if (id === "1") {
-    // ✅ Hindi MPD + Key
+    console.log("Selected Hindi stream");
     manifestUri = "https://aba3uy3aaaaaaaamfjv2jyrjdxcj4.otte.live.cf.ww.aiv-cdn.net/sin-nitro/live/clients/dash/enc/ebgsyorlcl/out/v1/ce95d81f287040d5a3fa6d4b145be849/cenc.mpd";
     clearKeys = {
       "d28475494eb39cef95e5175c028ea814": "8ac4fc085792b7bf8b7c38246f40d9c9"
     };
   } else if (id === "2") {
-    // ✅ English MPD + Key
+    console.log("Selected English stream");
     manifestUri = "https://abbbmftaaaaaaaamgdshloqn26zka.otte.live.cf.ww.aiv-cdn.net/sin-nitro/clients/dash/enc/jr0zvtazlv/out/v1/6bae9634f7594a738530656284177423/cenc.mpd";
     clearKeys = {
       "2ce2e7d0af813fd26c6fe0b59201ced5": "1416f69da90f62735a6521aae461dd74"
@@ -43,7 +43,7 @@
   }
 
   async function init() {
-    if (!manifestUri) return; // Stop if no valid ID
+    if (!manifestUri) return;
 
     const video = document.getElementById('video');
     const ui = video['ui'];
@@ -53,9 +53,11 @@
     window.player = player;
     window.ui = ui;
 
+    console.log("Configuring DRM with keys:", clearKeys);
+
     player.configure({
       drm: {
-        "clearKeys": clearKeys
+        clearKeys: clearKeys
       }
     });
 
@@ -63,8 +65,9 @@
     controls.addEventListener('error', onUIErrorEvent);
 
     try {
+      console.log("Loading manifest:", manifestUri);
       await player.load(manifestUri);
-      console.log('The video has now been loaded!');
+      console.log('✅ The video has now been loaded!');
     } catch (error) {
       onPlayerError(error);
     }
@@ -75,7 +78,7 @@
   }
 
   function onPlayerError(error) {
-    console.error('Error code', error.code, 'object', error);
+    console.error('❌ Error code', error.code, 'object', error);
   }
 
   function onUIErrorEvent(errorEvent) {
@@ -83,16 +86,11 @@
   }
 
   function initFailed(errorEvent) {
-    console.error('Unable to load the UI library!');
+    console.error('❌ Unable to load the UI library!');
   }
 
   document.addEventListener('shaka-ui-loaded', init);
   document.addEventListener('shaka-ui-load-failed', initFailed);
-
-  var userConfirmed = confirm("Join For More Links!!");
-  if (userConfirmed) {
-    window.location.href = "https://telegram.me/criccoder";
-  }
 </script>
 
 <style>
